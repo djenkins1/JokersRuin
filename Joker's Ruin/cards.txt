@@ -1,0 +1,71 @@
+warlike card game
+--------------
+1 card in middle
+each player has 3\5 cards in hand and a draw pile for each player
+higher card wins the one in the middle(adds to total score)
+	if draw, the cards value is added to both players scores
+bonus points if card in middle is same color as yours and you win it(no draw)
+
+game ends once draw pile is exhausted and 1 card has been played from hand
+bonus points for cards of your color(red/black) left in hand
+player with highest score at end wins
+
+------
+Joker
+------
+(?)joker cannot be in player/opponent hands but can be in middle
+(?)player that gets joker has score halved
+
+------
+Coins
+------
+maybe have score be coins, the total score at end is added to coin purse
+
+for every (100/1000) coins, get a gem
+can use gems to buy specialty things like:
+	customizable card backgrounds
+	unlock more music
+
+------
+special
+------
+teleport card animation
+	card picked fades out and shows up in middle
+	new card drawn fades into right most spot and other cards are shuffled down
+
+AI system(with difficulty level)
+
+Multiplayer support using Game Center
+
+maybe have fireworks animations if player wins
+
+------
+Name Ideas
+------
+Joker's Fold
+Joker's Chase
+(*)Joker's Ruin
+
+------
+OTHER
+------
+no collision detection
+
+tapping will be simpler
+
+Deck object
+
+card rank/suit enums
+
+------
+Needed
+------
+Music
+
+Sound Effects
+
+App Icon
+
+(!!!)Background
+	Take green card background, remove white strip and scale for various aspects
+		Also rotate for different screen oreientations(for choices in dev)
