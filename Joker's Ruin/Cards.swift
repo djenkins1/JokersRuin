@@ -68,6 +68,15 @@ class Deck
 		return myCards.isEmpty
 	}
 	
+	func peekAt( index : Int ) -> Card?
+	{
+		if ( index >= myCards.count )
+		{
+			return nil
+		}
+		return myCards[ index ]
+	}
+	
 	//adds the card provided to the bottom of the deck
 	func appendCard( card : Card )
 	{
@@ -158,6 +167,11 @@ class Card
 	func betterScore( other : Card ) -> Bool
 	{
 		return ( self.getScore() >= other.getScore() )
+	}
+	
+	static func getJoker() -> Card
+	{
+		return Card( suit: .Joker, rank: .Joker )
 	}
 }
 

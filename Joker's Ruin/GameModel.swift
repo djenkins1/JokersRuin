@@ -47,7 +47,10 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
-		
+	}
+	
+	func debugPrint()
+	{
 		print( "Player's Hand" )
 		player.myHand.printDeck()
 		print( "Player's deck count: \(player.myDeck.totalCards)" )
@@ -59,7 +62,6 @@ class GameModel
 		
 		print( "Middle card: \(middleCard.getSpriteString() )" )
 		print( "Middle Deck count: \(middleDeck.totalCards)" )
-		
 	}
 	
 	//returns true if the player won the battle or false if opponent won

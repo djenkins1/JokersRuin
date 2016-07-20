@@ -13,15 +13,41 @@ class CardObj : GameObj
 {
 	private(set) var myCard : Card
 	
-	init( card : Card, xStart : CGFloat, yStart: CGFloat )
+	private(set) var myFlip : Bool
+	
+	init( card : Card, xStart : CGFloat, yStart: CGFloat, isFlipped : Bool )
 	{
 		myCard = card
-		super.init(spriteName: card.getSpriteString(), xStart: xStart, yStart: yStart )
+		myFlip = isFlipped
+		let spriteName = ( myFlip ? card.getSpriteString() : CardObj.getCardBackSprite() )
+		super.init(spriteName: spriteName, xStart: xStart, yStart: yStart )
 	}
 	
 	func changeToCard( card : Card )
 	{
 		myCard = card
-		setSprite( myCard.getSpriteString() )
+	}
+	
+	private func updateSprite()
+	{
+		if ( myFlip )
+		{
+			setSprite( myCard.getSpriteString() )
+		}
+		else
+		{
+			setSprite( CardObj.getCardBackSprite() )
+		}
+	}
+	
+	func flipCard( toFront : Bool )
+	{
+		myFlip = toFront
+		updateSprite()
+	}
+	
+	static func getCardBackSprite() -> String
+	{
+		return "cardBack_blue5"
 	}
 }

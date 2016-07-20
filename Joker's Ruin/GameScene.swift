@@ -11,13 +11,9 @@
 //TODO:
 //----------
 //	shuffle deck should be a bit more random
-//	show the player's hand
-//	show back face of opponents hand
-//	show back face draw deck for both players(should be to right of player, i.e upper left for opponent)
-//	show top card of middle
-//	show back face of middle deck
 //	should probably show number of remaining cards in player's deck
 //	tapping on card should initiate comparison
+//	has weird positioning of cards(deckCards) on ipad
 //
 */
 import SpriteKit
@@ -53,6 +49,16 @@ class GameScene: SKScene
 	
 	var model = GameModel()
 	
+	var playerCards = [CardObj]()
+	
+	var middleCard : CardObj!
+	
+	var playerDeckCard : CardObj!
+	
+	var opponentDeckCard : CardObj!
+	
+	var opponentCards = [CardObj]()
+	
 	override func didMoveToView(view: SKView)
 	{
 		/* Setup your scene here */
@@ -64,8 +70,68 @@ class GameScene: SKScene
 		self.addChild(myLabel)
 		*/
 		
+		let screenBound = UIScreen.mainScreen().bounds
 		createBackground()
+		let middleCardY = 0.425 * screenBound.height
+		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 1 ), yStart: middleCardY , isFlipped: true )
+		addGameObject( middleCard )
+		addGameObject( addDeckCard( model.player.myHand.totalCards, yPos : middleCardY ) )
+		addPlayerCardsToView()
+		addOpponentCardsToView()
+	}
+	
+	private func addPlayerCardsToView()
+	{
+		let yPos = UIScreen.mainScreen().bounds.height * 0.1
+		playerCards = addCardsToView( model.player.myHand, facingTop : true, yPos : yPos )
+		playerDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: yPos  )
+		addGameObject( playerDeckCard )
+	}
+	
+	private func addCardsToView( deckFrom : Deck, facingTop : Bool, yPos : CGFloat ) -> [CardObj]
+	{
+		var allCards = [CardObj]()
 		
+		for i in 0..<deckFrom.totalCards
+		{
+			if let card = deckFrom.peekAt( i )
+			{
+				let xPos = getCardPosition( i )
+				let cardView = CardObj( card: card, xStart: xPos , yStart: yPos, isFlipped: facingTop )
+				cardView.sprite.zPosition += CGFloat( i )
+				allCards.append( cardView )
+				addGameObject( cardView )
+			}
+		}
+		
+		return allCards
+	}
+	
+	private func addDeckCard( totalCards : Int, yPos : CGFloat ) -> CardObj
+	{
+		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, isFlipped: true ).sprite.frame.width
+		let xPos = getCardPosition( totalCards ) + ( cardSize * 0.4 )
+		return CardObj( card: Card( suit: .Joker, rank: .Joker ), xStart: xPos , yStart: yPos, isFlipped: false )
+	}
+	
+	private func getCardPosition( index: Int ) -> CGFloat
+	{
+		let leftMostX = UIScreen.mainScreen().bounds.width * 0.05
+		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, isFlipped: true ).sprite.frame.width
+		return ( CGFloat( index ) * ( cardSize * 0.25 ) ) + leftMostX
+	}
+	
+	func convert( point: CGPoint ) -> CGPoint
+	{
+		return self.view!.convertPoint(CGPoint(x: point.x, y: self.view!.frame.height - point.y), toScene:self)
+	}
+	
+	private func addOpponentCardsToView()
+	{
+		let yPos = UIScreen.mainScreen().bounds.height * 0.7
+		opponentCards = addCardsToView( model.opponent.myHand, facingTop : false, yPos : yPos )
+		opponentDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: yPos  )
+		addGameObject( opponentDeckCard )
 	}
 	
 	/* Called before each frame is rendered */
@@ -294,7 +360,7 @@ class GameScene: SKScene
 	//creates the background image for the scene
 	func createBackground()
 	{
-		let sprite = SKSpriteNode( imageNamed: "newBackLandscape" )
+		let sprite = SKSpriteNode( imageNamed: "newBackPortrait" )
         sprite.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
 		sprite.size.height = frame.height
 		sprite.size.width = frame.width

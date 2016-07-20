@@ -44,6 +44,7 @@ class GameObj
 	func createEvent( scene : GameScene ) -> GameObj
 	{
 		myScene = scene
+		sprite.position = myScene.convert( sprite.position )
 		return self
 	}
 	
