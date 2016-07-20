@@ -16,8 +16,9 @@
 		FE2210DC1D3DFF26009F73E6 /* GameObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210DB1D3DFF26009F73E6 /* GameObj.swift */; };
 		FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */; };
 		FE2210E21D3E01CF009F73E6 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210E11D3E01CF009F73E6 /* Cards.swift */; };
-		FE2210E41D3E07C6009F73E6 /* CardObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210E31D3E07C6009F73E6 /* CardObj.swift */; };
 		FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE2210E51D3E09C6009F73E6 /* cards.txt */; };
+		FE79033A1D3EF0C000DFFFEF /* CardObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7903391D3EF0C000DFFFEF /* CardObj.swift */; };
+		FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,8 +33,9 @@
 		FE2210DB1D3DFF26009F73E6 /* GameObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObj.swift; sourceTree = "<group>"; };
 		FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FE2210E11D3E01CF009F73E6 /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
-		FE2210E31D3E07C6009F73E6 /* CardObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CardObj.swift; path = ../CardObj.swift; sourceTree = "<group>"; };
 		FE2210E51D3E09C6009F73E6 /* cards.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cards.txt; sourceTree = "<group>"; };
+		FE7903391D3EF0C000DFFFEF /* CardObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardObj.swift; sourceTree = "<group>"; };
+		FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,13 +72,14 @@
 				FE2210C71D3DFEE0009F73E6 /* GameScene.sks */,
 				FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */,
 				FE2210DB1D3DFF26009F73E6 /* GameObj.swift */,
-				FE2210E31D3E07C6009F73E6 /* CardObj.swift */,
+				FE7903391D3EF0C000DFFFEF /* CardObj.swift */,
 				FE2210CB1D3DFEE0009F73E6 /* GameViewController.swift */,
+				FE2210E11D3E01CF009F73E6 /* Cards.swift */,
+				FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
 				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
 				FE2210D21D3DFEE0009F73E6 /* LaunchScreen.storyboard */,
 				FE2210D51D3DFEE1009F73E6 /* Info.plist */,
-				FE2210E11D3E01CF009F73E6 /* Cards.swift */,
 				FE2210E51D3E09C6009F73E6 /* cards.txt */,
 			);
 			path = "Joker's Ruin";
@@ -155,11 +158,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE79033A1D3EF0C000DFFFEF /* CardObj.swift in Sources */,
 				FE2210E21D3E01CF009F73E6 /* Cards.swift in Sources */,
-				FE2210E41D3E07C6009F73E6 /* CardObj.swift in Sources */,
 				FE2210DC1D3DFF26009F73E6 /* GameObj.swift in Sources */,
 				FE2210CC1D3DFEE0009F73E6 /* GameViewController.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
+				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
 				FE2210C61D3DFEE0009F73E6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +316,7 @@
 				FE2210DA1D3DFEE1009F73E6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

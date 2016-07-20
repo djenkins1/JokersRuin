@@ -8,9 +8,42 @@
 
 import Foundation
 
+class Player
+{
+	private(set) var myDeck : Deck
+	
+	private(set) var myHand : Deck
+	
+	var myScore : Int
+	
+	let myColor : CardColor
+	
+	init( color : CardColor )
+	{
+		myDeck = Deck( withCards : [Card]() )
+		myHand = Deck( withCards : [Card]() )
+		myScore = 0
+		myColor = color
+	}
+	
+	func drawCard()
+	{
+		if let newCard = myDeck.getTopCard()
+		{
+			myHand.appendCard( newCard )
+		}
+	}
+	
+}
+
 class Deck
 {
 	private var myCards = [Card]()
+	
+	var totalCards : Int
+	{
+		return myCards.count
+	}
 	
 	init()
 	{
@@ -23,6 +56,11 @@ class Deck
 				myCards.append( Card( suit : suit, rank : rank ) )
 			}
 		}
+	}
+	
+	init( withCards : [Card] )
+	{
+		myCards = withCards
 	}
 	
 	func empty() -> Bool
@@ -47,9 +85,27 @@ class Deck
 		return myCards.removeFirst()
 	}
 	
-	func shuffle()
+	func shuffle( totalTimes : Int = 1 )
 	{
-		//TODO:
+		for _ in 1...totalTimes
+		{
+			shuffleOnce()
+		}
+	}
+	
+	private func shuffleOnce()
+	{
+		var shuffled = [Card]()
+		shuffled.reserveCapacity( myCards.count )
+		while myCards.count > 0
+		{
+			let indexOfCard = Int( arc4random_uniform( UInt32(myCards.count ) ) )
+			
+			let indexToPlace = ( shuffled.isEmpty ? 0 : Int( arc4random_uniform( UInt32(shuffled.count ) ) ) )
+			shuffled.insert( myCards.removeAtIndex( indexOfCard ), atIndex: indexToPlace )
+		}
+		
+		myCards = shuffled
 	}
 	
 	func printDeck()
@@ -65,6 +121,16 @@ class Card
 {
 	let suit : Suits
 	let rank : Ranks
+	
+	var isJoker : Bool
+	{
+		return ( suit == .Joker || rank == .Joker )
+	}
+	
+	var color : CardColor
+	{
+		return Suits.getColorOf( suit )
+	}
 	
 	init( suit : Suits , rank : Ranks )
 	{

@@ -10,17 +10,13 @@
 //----------
 //TODO:
 //----------
-//	finish shuffle deck function in Deck
-//	distribute the cards between both players and dealer(middle)
-//	show top(3-5) cards in hand for player
+//	shuffle deck should be a bit more random
+//	show the player's hand
 //	show back face of opponents hand
 //	show back face draw deck for both players(should be to right of player, i.e upper left for opponent)
 //	show top card of middle
 //	show back face of middle deck
-//	should probably show remaining cards in middle deck
-//	keep track of score(need to calculate)
-//	keep track of colors of both players
-//	make sure all game logic is in the model( i.e cards view just reflects the model)
+//	should probably show number of remaining cards in player's deck
 //	tapping on card should initiate comparison
 //
 */
@@ -55,9 +51,7 @@ class GameScene: SKScene
 	//a list of object class names, and how many instances of said class have been destroyed
 	var objectsDestroyed = [ String : Int ]()
 	
-	var deck : Deck!
-	
-	var card : CardObj!
+	var model = GameModel()
 	
 	override func didMoveToView(view: SKView)
 	{
@@ -72,21 +66,6 @@ class GameScene: SKScene
 		
 		createBackground()
 		
-		deck = Deck()
-		deck.appendCard( Card( suit : .Joker, rank: .Joker ) )
-		deck.printDeck()
-		
-		card = CardObj( card: deck.getTopCard()!, xStart: CGRectGetMidX(self.frame), yStart: CGRectGetMidY(self.frame) )
-		addGameObject( card )
-		NSTimer.scheduledTimerWithTimeInterval( 1.0 , target: self, selector: #selector(self.changeToNextCard), userInfo: nil, repeats: true )
-	}
-	
-	func changeToNextCard()
-	{
-		if let newCard = deck.getTopCard()
-		{
-			card.changeToCard( newCard )
-		}
 	}
 	
 	/* Called before each frame is rendered */
