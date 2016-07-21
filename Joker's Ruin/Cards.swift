@@ -53,6 +53,22 @@ class Deck
 		return myCards.count
 	}
 	
+	var bestCardIndex : Int
+	{
+		var toReturn = 0
+		for i in 1..<myCards.count
+		{
+			let currentBest = myCards[ toReturn ]
+			let currentCard = myCards[ i ]
+			if ( currentCard.betterScore( currentBest ) )
+			{
+				toReturn = i
+			}
+		}
+		
+		return toReturn
+	}
+	
 	init()
 	{
 		let suits : [Suits] = [ .Clubs, .Diamonds, .Hearts, .Spades ]
@@ -76,14 +92,14 @@ class Deck
 		return myCards.isEmpty
 	}
 	
-	func removeAt( index: Int )
+	func removeAt( index: Int ) -> Card?
 	{
 		if ( index < 0 || index >= myCards.count )
 		{
-			return
+			return nil
 		}
 		
-		myCards.removeAtIndex( index )
+		return myCards.removeAtIndex( index )
 	}
 	
 	func peekAt( index : Int ) -> Card?

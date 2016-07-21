@@ -64,6 +64,13 @@ class GameModel
 		print( "Middle Deck count: \(middleDeck.totalCards)" )
 	}
 	
+	func debugScore()
+	{
+		print( "Player Score: \(player.myScore)" )
+		print( "Opponent Score: \(opponent.myScore)" )
+		print( "" )
+	}
+	
 	//returns true if the player won the battle or false if opponent won
 	//returns nil in the event of a draw
 	func battle( playerCard : Card, opponentCard : Card ) -> Bool?
@@ -86,9 +93,10 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
-		player.drawCard()
-		opponent.drawCard()
+		//player.drawCard()
+		//opponent.drawCard()
 		
+		debugScore()
 		return toReturn
 	}
 	
@@ -122,5 +130,34 @@ class GameModel
 	func totalScoreFromCard( card : Card ) -> Int
 	{
 		return card.getScore() / 2
+	}
+	
+	private func finalScore( player : Player )
+	{
+		for i in 0..<player.myHand.totalCards
+		{
+			if let card = player.myHand.peekAt( i )
+			{
+				player.myScore += totalScoreFromCard( card )
+				if ( card.color == player.myColor )
+				{
+					player.myScore += bonusPointsForColor
+				}
+			}
+			
+		}
+	}
+	
+	func calculateFinalScores()
+	{
+		finalScore( player )
+		finalScore( opponent )
+		print( "Final Scores" )
+		debugScore()
+	}
+	
+	func isGameOver() -> Bool
+	{
+		return player.myDeck.empty() || opponent.myDeck.empty()
 	}
 }

@@ -1,20 +1,21 @@
 warlike card game
 --------------
-1 card in middle
-each player has 3\5 cards in hand and a draw pile for each player
-higher card wins the one in the middle(adds to total score)
-	if draw, the cards value is added to both players scores
-bonus points if card in middle is same color as yours and you win it(no draw)
+(DONE)1 card in middle
+each player has 5 cards in hand and a draw pile for each player
+(DONE)higher card wins the one in the middle(adds to total score)
+	(DONE)if draw, the cards value is added to both players scores
+(DONE)bonus points if card in middle is same color as yours and you win it(no draw)
+	(DONE)no bonus points for draws though
 
 game ends once draw pile is exhausted and 1 card has been played from hand
-bonus points for cards of your color(red/black) left in hand
-player with highest score at end wins
+(DONE)bonus points for cards of your color(red/black) left in hand
+(DONE)player with highest score at end wins
 
 ------
 Joker
 ------
-(?)joker cannot be in player/opponent hands but can be in middle
-(?)player that gets joker has score halved
+(DONE)joker cannot be in player/opponent hands but can be in middle
+(DONE)player that gets joker has score halved
 
 ------
 Coins
@@ -29,9 +30,9 @@ can use gems to buy specialty things like:
 ------
 special
 ------
-teleport card animation
-	card picked fades out and shows up in middle
-	new card drawn fades into right most spot and other cards are shuffled down
+(DONE)teleport card animation
+	(DONE)card picked fades out and shows up in middle
+	(DONE)new card drawn fades into right most spot and other cards are shuffled down
 
 AI system(with difficulty level)
 
@@ -66,6 +67,6 @@ Sound Effects
 
 App Icon
 
-(!!!)Background
+(DONE)Background
 	Take green card background, remove white strip and scale for various aspects
 		Also rotate for different screen oreientations(for choices in dev)

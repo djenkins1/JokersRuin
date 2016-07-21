@@ -10,14 +10,32 @@
 //----------
 //TODO:
 //----------
-//	need to show the score of both players on the screen(maybe also make it the same color as the player?)
+//	has weird positioning of cards(deckCards) on ipad
 //	shuffle deck should be a bit more random
 //	should probably show number of remaining cards in player's deck
-//	has weird positioning of cards(deckCards) on ipad
-//	need AI to choose card and teleport said card to middle(similar to player chosen)
-//	need to keep track of chosen created cards and once both are not nil battle them
-//		remove them after the battle
-//
+//	need to show the score of both players on the screen(maybe also make it the same color as the player?)
+//	should have win battle/lose battle/draw battle animations(i.e indicate which player won the battle)
+//	need to show that game is over somehow( final scores text labels )
+//	should recolor the joker to be green?
+//	should remove the deck cards once there are no cards left
+//	currently isGameOver returns true once there are is still 5 cards in hand
+//		should return true if deck is empty and there are 4 cards
+//	Music
+//	Sound Effects
+//	App Icon
+//	Animations for opponents hand cards and choosing
+//	Menu with buttons for a new game, continue, credits
+//		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
+//	Continue Game support(only for single player against AI):
+//		should save the games state after every turn
+//		have to be able to load in everything
+//			hands
+//			decks
+//			middleCard/middleDeck
+//			scores
+//			colors
+//	Multiplayer game support using Game Center
+//	see cards.txt for other things todo
 */
 import SpriteKit
 import AVFoundation
@@ -66,7 +84,15 @@ class GameScene: SKScene
 	
 	var placeHolder2 : GameObj!
 	
+	var playerChosenCard : CardObj?
+	
+	var opponentChosenCard : CardObj?
+	
 	let playerCardPosY = UIScreen.mainScreen().bounds.height * 0.1
+	
+	let currentAI = EasyAI()
+	
+	var shouldWait = false
 	
 	override func didMoveToView(view: SKView)
 	{
@@ -113,7 +139,10 @@ class GameScene: SKScene
 				let xPos = getCardPosition( i )
 				let cardView = CardObj( card: card, xStart: xPos , yStart: yPos, isFlipped: facingTop )
 				cardView.sprite.zPosition += CGFloat( i )
-				cardView.placeInHand = i
+				if facingTop
+				{
+					cardView.placeInHand = i
+				}
 				allCards.append( cardView )
 				addGameObject( cardView )
 			}
@@ -147,6 +176,26 @@ class GameScene: SKScene
 		opponentCards = addCardsToView( model.opponent.myHand, facingTop : false, yPos : yPos )
 		opponentDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: yPos  )
 		addGameObject( opponentDeckCard )
+	}
+	
+	func bothSidesChosen()
+	{
+		if playerChosenCard != nil && opponentChosenCard != nil
+		{
+			model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
+			playerChosenCard!.makeDead()
+			opponentChosenCard!.makeDead()
+			middleCard.changeToCard( model.middleCard )
+			playerChosenCard = nil
+			opponentChosenCard = nil
+			shouldWait = false
+			
+			if model.isGameOver()
+			{
+				model.calculateFinalScores()
+				shouldWait = true
+			}
+		}
 	}
 	
 	/* Called before each frame is rendered */
@@ -366,6 +415,11 @@ class GameScene: SKScene
 	
 	func clickCard( chosen : Int )
 	{
+		if ( playerChosenCard != nil || shouldWait )
+		{
+			return
+		}
+		
 		var index = -1
 		for cardObj in playerCards
 		{
@@ -382,6 +436,46 @@ class GameScene: SKScene
 		}
 	}
 	
+	func choosePlayerCard( chosen : CardObj )
+	{
+		self.placeHolder.setSprite( "cardPlace" )
+		self.shouldWait = true
+		chosen.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
+			let card = chosen.myCard
+			chosen.makeDead()
+			self.playerChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+			self.playerChosenCard!.sprite.position = self.placeHolder.sprite.position
+			self.playerChosenCard!.shouldConvertPosition = false
+			self.playerChosenCard!.sprite.alpha = 0.0
+			self.playerChosenCard!.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
+			self.playerChosenCard!.sprite.zPosition = chosen.sprite.zPosition
+			self.model.player.myHand.removeAt( chosen.placeInHand )
+			self.queueGameObject( self.playerChosenCard! )
+			self.repositionCards()
+		})
+	}
+	
+	func chooseOpponentCard( chosenIndex : Int )
+	{
+		if let chosenCard = model.opponent.myHand.removeAt( chosenIndex )
+		{
+			let card = chosenCard
+			self.opponentChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+			self.opponentChosenCard!.sprite.position = self.placeHolder2.sprite.position
+			self.opponentChosenCard!.shouldConvertPosition = false
+			self.opponentChosenCard!.sprite.alpha = 0.0
+			self.opponentChosenCard!.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
+			self.opponentChosenCard!.sprite.zPosition = 20
+			self.queueGameObject( opponentChosenCard! )
+			if !model.opponent.drawCard()
+			{
+				let cardToRemove = opponentCards.removeLast()
+				cardToRemove.makeDead()
+			}
+		}
+		
+	}
+	
 	func chooseCard()
 	{
 		var chosen : CardObj? = nil
@@ -395,24 +489,9 @@ class GameScene: SKScene
 		
 		if chosen != nil
 		{
-			self.placeHolder.setSprite( "cardPlace" )
-			chosen!.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
-				let card = chosen!.myCard
-				chosen!.makeDead()
-				let newCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
-				newCard.sprite.position = self.placeHolder.sprite.position
-				newCard.shouldConvertPosition = false
-				newCard.sprite.alpha = 0.0
-				newCard.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
-				newCard.sprite.zPosition = chosen!.sprite.zPosition
-				self.model.player.myHand.removeAt( chosen!.placeInHand )
-				self.queueGameObject( newCard )
-				self.repositionCards()
-			})
-			
-			//TODO:
-			//move all cards down by one
-			//wait for AI to choose card and teleport their card similarly but to placeholder2
+			choosePlayerCard( chosen! )
+			chooseOpponentCard( currentAI.chooseCard( model.opponent, middleCard: model.middleCard ) )
+			NSTimer.scheduledTimerWithTimeInterval( 2.0 , target: self, selector: #selector(self.bothSidesChosen), userInfo: nil, repeats: false)
 		}
 		else
 		{

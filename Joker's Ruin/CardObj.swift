@@ -29,12 +29,13 @@ class CardObj : GameObj
 	func changeToCard( card : Card )
 	{
 		myCard = card
+		updateSprite()
 	}
 	
 	override func touchEvent(location: CGPoint)
 	{
 		super.touchEvent( location )
-		if ( myScene != nil )
+		if ( myScene != nil && placeInHand != -1 )
 		{
 			myScene.clickCard( placeInHand )
 		}
