@@ -10,10 +10,13 @@
 //----------
 //TODO:
 //----------
+//	need to show the score of both players on the screen(maybe also make it the same color as the player?)
 //	shuffle deck should be a bit more random
 //	should probably show number of remaining cards in player's deck
-//	tapping on card should initiate comparison
 //	has weird positioning of cards(deckCards) on ipad
+//	need AI to choose card and teleport said card to middle(similar to player chosen)
+//	need to keep track of chosen created cards and once both are not nil battle them
+//		remove them after the battle
 //
 */
 import SpriteKit
@@ -59,6 +62,12 @@ class GameScene: SKScene
 	
 	var opponentCards = [CardObj]()
 	
+	var placeHolder : GameObj!
+	
+	var placeHolder2 : GameObj!
+	
+	let playerCardPosY = UIScreen.mainScreen().bounds.height * 0.1
+	
 	override func didMoveToView(view: SKView)
 	{
 		/* Setup your scene here */
@@ -72,9 +81,15 @@ class GameScene: SKScene
 		
 		let screenBound = UIScreen.mainScreen().bounds
 		createBackground()
+		
 		let middleCardY = 0.425 * screenBound.height
-		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 1 ), yStart: middleCardY , isFlipped: true )
+		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 3 ), yStart: middleCardY , isFlipped: true )
+		placeHolder2 = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 1 ), yStart: middleCardY )
+		placeHolder = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 5 ), yStart: middleCardY )
+		placeHolder.withTouchObserver( PlaceHolderTouchObserver( scene: self ) )
 		addGameObject( middleCard )
+		addGameObject( placeHolder2 )
+		addGameObject( placeHolder )
 		addGameObject( addDeckCard( model.player.myHand.totalCards, yPos : middleCardY ) )
 		addPlayerCardsToView()
 		addOpponentCardsToView()
@@ -82,9 +97,8 @@ class GameScene: SKScene
 	
 	private func addPlayerCardsToView()
 	{
-		let yPos = UIScreen.mainScreen().bounds.height * 0.1
-		playerCards = addCardsToView( model.player.myHand, facingTop : true, yPos : yPos )
-		playerDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: yPos  )
+		playerCards = addCardsToView( model.player.myHand, facingTop : true, yPos : playerCardPosY )
+		playerDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: playerCardPosY  )
 		addGameObject( playerDeckCard )
 	}
 	
@@ -99,6 +113,7 @@ class GameScene: SKScene
 				let xPos = getCardPosition( i )
 				let cardView = CardObj( card: card, xStart: xPos , yStart: yPos, isFlipped: facingTop )
 				cardView.sprite.zPosition += CGFloat( i )
+				cardView.placeInHand = i
 				allCards.append( cardView )
 				addGameObject( cardView )
 			}
@@ -195,7 +210,7 @@ class GameScene: SKScene
         }
 		*/
 		
-		/*
+		
 		for touch in touches
 		{
 			let location = touch.locationInNode(self)
@@ -207,7 +222,6 @@ class GameScene: SKScene
 				}
 			}
 		}
-		*/
     }
 	
 	/*
@@ -350,6 +364,103 @@ class GameScene: SKScene
 		return obj
 	}
 	
+	func clickCard( chosen : Int )
+	{
+		var index = -1
+		for cardObj in playerCards
+		{
+			index += 1
+			if index == chosen
+			{
+				cardObj.sprite.alpha = 0.8
+				placeHolder.setSprite( "cardPlace2" )
+			}
+			else
+			{
+				cardObj.sprite.alpha = 1.0
+			}
+		}
+	}
+	
+	func chooseCard()
+	{
+		var chosen : CardObj? = nil
+		for cardObj in playerCards
+		{
+			if cardObj.sprite.alpha != 1.0
+			{
+				chosen = cardObj
+			}
+		}
+		
+		if chosen != nil
+		{
+			self.placeHolder.setSprite( "cardPlace" )
+			chosen!.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
+				let card = chosen!.myCard
+				chosen!.makeDead()
+				let newCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+				newCard.sprite.position = self.placeHolder.sprite.position
+				newCard.shouldConvertPosition = false
+				newCard.sprite.alpha = 0.0
+				newCard.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
+				newCard.sprite.zPosition = chosen!.sprite.zPosition
+				self.model.player.myHand.removeAt( chosen!.placeInHand )
+				self.queueGameObject( newCard )
+				self.repositionCards()
+			})
+			
+			//TODO:
+			//move all cards down by one
+			//wait for AI to choose card and teleport their card similarly but to placeholder2
+		}
+		else
+		{
+			print( "Card not chosen" )
+		}
+		
+	}
+	
+	func repositionCards()
+	{
+		var newIndex = 0
+		var newCards = [CardObj]()
+		for cardObj in playerCards
+		{
+			if ( cardObj.isDead )
+			{
+				continue
+			}
+			else
+			{
+				newCards.append( cardObj )
+				if cardObj.placeInHand != newIndex
+				{
+					cardObj.placeInHand = newIndex
+					let point = convert( CGPoint( x: getCardPosition( newIndex ), y: 0 ) )
+					let action = SKAction.moveToX( point.x, duration: 0.5 )
+					cardObj.sprite.runAction( action )
+					cardObj.sprite.zPosition -= 1
+				}
+				newIndex += 1
+			}
+		}
+		
+		if self.model.player.drawCard()
+		{
+			let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, isFlipped: true )
+			newCard.placeInHand = newIndex
+			newCard.sprite.zPosition += CGFloat( newIndex )
+			newCards.append( newCard )
+			newCard.sprite.alpha = 0
+			let action = SKAction.fadeInWithDuration( 0.8 )
+			newCard.sprite.runAction( action )
+			queueGameObject( newCard )
+			
+		}
+		playerCards = newCards
+	}
+	
 	//adds the object to the queue for creation
 	func queueGameObject( obj : GameObj ) -> GameObj
 	{
@@ -431,3 +542,19 @@ class GameScene: SKScene
 		return gcd( b, a % b )
 	}
 }
+
+class PlaceHolderTouchObserver : TouchEventObserver
+{
+	let myScene : GameScene
+	
+	init( scene : GameScene )
+	{
+		myScene = scene
+	}
+	
+	func notifyTouched(location: CGPoint, obj: GameObj)
+	{
+		myScene.chooseCard()
+	}
+}
+

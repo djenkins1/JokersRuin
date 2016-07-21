@@ -15,17 +15,29 @@ class CardObj : GameObj
 	
 	private(set) var myFlip : Bool
 	
+	var placeInHand = -1
+	
 	init( card : Card, xStart : CGFloat, yStart: CGFloat, isFlipped : Bool )
 	{
 		myCard = card
 		myFlip = isFlipped
 		let spriteName = ( myFlip ? card.getSpriteString() : CardObj.getCardBackSprite() )
 		super.init(spriteName: spriteName, xStart: xStart, yStart: yStart )
+		sprite.zPosition += 1
 	}
 	
 	func changeToCard( card : Card )
 	{
 		myCard = card
+	}
+	
+	override func touchEvent(location: CGPoint)
+	{
+		super.touchEvent( location )
+		if ( myScene != nil )
+		{
+			myScene.clickCard( placeInHand )
+		}
 	}
 	
 	private func updateSprite()

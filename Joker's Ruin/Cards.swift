@@ -26,12 +26,15 @@ class Player
 		myColor = color
 	}
 	
-	func drawCard()
+	func drawCard() -> Bool
 	{
 		if let newCard = myDeck.getTopCard()
 		{
 			myHand.appendCard( newCard )
+			return true
 		}
+		
+		return false
 	}
 	
 }
@@ -39,6 +42,11 @@ class Player
 class Deck
 {
 	private var myCards = [Card]()
+	
+	var lastCard : Card?
+	{
+		return myCards.last
+	}
 	
 	var totalCards : Int
 	{
@@ -66,6 +74,16 @@ class Deck
 	func empty() -> Bool
 	{
 		return myCards.isEmpty
+	}
+	
+	func removeAt( index: Int )
+	{
+		if ( index < 0 || index >= myCards.count )
+		{
+			return
+		}
+		
+		myCards.removeAtIndex( index )
 	}
 	
 	func peekAt( index : Int ) -> Card?

@@ -26,6 +26,10 @@ class GameObj
 	
 	let startWidth : CGFloat
 	
+	var shouldConvertPosition = true
+	
+	private var touchObservers = [TouchEventObserver]()
+	
 	init( spriteName : String, xStart : CGFloat, yStart : CGFloat )
 	{
 		sprite = SKSpriteNode( imageNamed: spriteName )
@@ -44,7 +48,10 @@ class GameObj
 	func createEvent( scene : GameScene ) -> GameObj
 	{
 		myScene = scene
-		sprite.position = myScene.convert( sprite.position )
+		if ( shouldConvertPosition )
+		{
+			sprite.position = myScene.convert( sprite.position )
+		}
 		return self
 	}
 	
@@ -73,11 +80,18 @@ class GameObj
 		self.sprite.position.y = y
 	}
 	
+	func withTouchObserver( observer : TouchEventObserver )
+	{
+		touchObservers.append( observer )
+	}
 	
 	//fires when the object is touched
 	func touchEvent( location : CGPoint )
 	{
-		
+		for observer in touchObservers
+		{
+			observer.notifyTouched( location, obj: self)
+		}
 	}
 	
 	//fires when the object is no longer being touched
@@ -114,4 +128,9 @@ class GameObj
 		return NSStringFromClass(self.dynamicType)
 	}
 	
+}
+
+protocol TouchEventObserver
+{
+	func notifyTouched( location : CGPoint, obj : GameObj )
 }
