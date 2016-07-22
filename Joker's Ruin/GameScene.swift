@@ -12,22 +12,30 @@
 //----------
 //	has weird positioning of cards(deckCards) on ipad
 //	shuffle deck should be a bit more random
-//	should probably show number of remaining cards in player's deck
-//	need to show the score of both players on the screen(maybe also make it the same color as the player?)
+//
 //	should have win battle/lose battle/draw battle animations(i.e indicate which player won the battle)
-//	need to show that game is over somehow( final scores text labels )
-//	should recolor the joker to be green?
-//	should remove the deck cards once there are no cards left
-//	currently isGameOver returns true once there are is still 5 cards in hand
-//		should return true if deck is empty and there are 4 cards
+//	need to show that game is over somehow( final scores show up )
+//		final scores need to show up because scoreLabels are not updated on game over
+//		should also have some animation for winning/losing game
+//			probably also for ties?
+//	Teleport/Movement Animations for opponents hand cards and choosing
+//		along side should remove opponent deck card as well when opponent has no more cards in deck
+//	maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
+//		deck card would have indexInHand equal to totalCards in hand
+//	special animation for who wins the joker
+//	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
+//
+//	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	Music
 //	Sound Effects
 //	App Icon
-//	Animations for opponents hand cards and choosing
+//
 //	Menu with buttons for a new game, continue, credits
 //		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
 //	Continue Game support(only for single player against AI):
+//		should remove the save once the current game is over
 //		should save the games state after every turn
+//			will only need to save the model
 //		have to be able to load in everything
 //			hands
 //			decks
@@ -90,9 +98,17 @@ class GameScene: SKScene
 	
 	let playerCardPosY = UIScreen.mainScreen().bounds.height * 0.1
 	
+	let opponentCardPosY = UIScreen.mainScreen().bounds.height * 0.7
+	
 	let currentAI = EasyAI()
 	
 	var shouldWait = false
+	
+	var deckLabel : SKLabelNode!
+	
+	var playerScoreLabel : SKLabelNode!
+	
+	var opponentScoreLabel : SKLabelNode!
 	
 	override func didMoveToView(view: SKView)
 	{
@@ -125,7 +141,27 @@ class GameScene: SKScene
 	{
 		playerCards = addCardsToView( model.player.myHand, facingTop : true, yPos : playerCardPosY )
 		playerDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: playerCardPosY  )
+		//func addMakeLabel( message : String, xPos : CGFloat, yPos : CGFloat, fontSize : CGFloat, convertPoint : Bool = true ) -> SKLabelNode
+		let fontSize : CGFloat = 40
+		deckLabel = addMakeLabel( "\(model.player.myDeck.totalCards)" , xPos : playerDeckCard.sprite.position.x , yPos : playerCardPosY + ( fontSize * 3 ), fontSize: fontSize )
+		makeScoreLabel( true )
 		addGameObject( playerDeckCard )
+	}
+	
+	func makeScoreLabel( forPlayer : Bool )
+	{
+		let fontSize : CGFloat = 40
+		let xPos = playerCards[ 0 ].sprite.position.x + ( fontSize * 2.0 )
+		if ( forPlayer )
+		{
+			playerScoreLabel = addMakeLabel( "Score: \(model.player.myScore)" , xPos : xPos , yPos : playerCardPosY - fontSize, fontSize: fontSize, convertPoint: false )
+			playerScoreLabel.fontColor = CardColor.colorCode( model.player.myColor )
+		}
+		else
+		{
+			opponentScoreLabel = addMakeLabel( "Score: \(model.opponent.myScore)" , xPos : xPos , yPos : opponentCards[0].sprite.position.y + (fontSize * 6), fontSize: fontSize, convertPoint: false )
+			opponentScoreLabel.fontColor = CardColor.colorCode( model.opponent.myColor )
+		}
 	}
 	
 	private func addCardsToView( deckFrom : Deck, facingTop : Bool, yPos : CGFloat ) -> [CardObj]
@@ -172,10 +208,10 @@ class GameScene: SKScene
 	
 	private func addOpponentCardsToView()
 	{
-		let yPos = UIScreen.mainScreen().bounds.height * 0.7
-		opponentCards = addCardsToView( model.opponent.myHand, facingTop : false, yPos : yPos )
-		opponentDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: yPos  )
+		opponentCards = addCardsToView( model.opponent.myHand, facingTop : false, yPos : opponentCardPosY )
+		opponentDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: opponentCardPosY  )
 		addGameObject( opponentDeckCard )
+		makeScoreLabel( false )
 	}
 	
 	func bothSidesChosen()
@@ -183,6 +219,8 @@ class GameScene: SKScene
 		if playerChosenCard != nil && opponentChosenCard != nil
 		{
 			model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
+			playerScoreLabel.text = "Score: \(model.player.myScore)"
+			opponentScoreLabel.text = "Score: \(model.opponent.myScore)"
 			playerChosenCard!.makeDead()
 			opponentChosenCard!.makeDead()
 			middleCard.changeToCard( model.middleCard )
@@ -343,19 +381,23 @@ class GameScene: SKScene
 		return toReturn
 	}
 	
-	func addMakeLabel( message : String, xPos : CGFloat, yPos : CGFloat, fontSize : CGFloat ) -> SKLabelNode
+	*/
+	
+	func addMakeLabel( message : String, xPos : CGFloat, yPos : CGFloat, fontSize : CGFloat, convertPoint : Bool = true ) -> SKLabelNode
 	{
 		let myFont = "Thonburi"//"Verdana"//"Thonburi"
 		let otherLabel = SKLabelNode(fontNamed: myFont )
 		otherLabel.text = message
 		otherLabel.fontSize = fontSize
-		otherLabel.position = CGPoint(x: xPos , y: yPos )
+		let prePoint = CGPoint(x: xPos , y: yPos )
+		otherLabel.position = ( convertPoint ? convert( prePoint ) : prePoint )
 		otherLabel.zPosition = 100
 		otherLabel.fontColor = UIColor.blackColor()
 		self.addChild(otherLabel)
 		return otherLabel
 	}
 	
+	/*
 	func addMakeSprite( spriteName : String, xPos : CGFloat, yPos : CGFloat ) -> SKSpriteNode
 	{
 		let sprite = SKSpriteNode( imageNamed: spriteName )
@@ -535,8 +577,22 @@ class GameScene: SKScene
 			let action = SKAction.fadeInWithDuration( 0.8 )
 			newCard.sprite.runAction( action )
 			queueGameObject( newCard )
-			
+			deckLabel.text = "\(model.player.myDeck.totalCards)"
 		}
+		
+		if self.model.player.myDeck.empty() && deckLabel != nil
+		{
+			deckLabel.removeFromParent()
+			deckLabel = nil
+			playerDeckCard.makeDead()
+			playerDeckCard = nil
+		}
+		
+		if ( model.isGameOver() )
+		{
+			middleCard.flipCard( false )
+		}
+		
 		playerCards = newCards
 	}
 	

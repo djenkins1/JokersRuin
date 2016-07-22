@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SpriteKit
 
 class Player
 {
@@ -240,6 +241,20 @@ enum CardColor
 	case Red
 	case Black
 	case Joker
+	
+	static func colorCode( myColor : CardColor ) -> UIColor
+	{
+		switch( myColor )
+		{
+		case .Red:
+			return UIColor.redColor()
+		case .Black:
+			return UIColor.blackColor()
+		case .Joker:
+			return UIColor.greenColor()
+			
+		}
+	}
 }
 
 enum Ranks : String

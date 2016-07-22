@@ -158,6 +158,9 @@ class GameModel
 	
 	func isGameOver() -> Bool
 	{
-		return player.myDeck.empty() || opponent.myDeck.empty()
+		let maxCardsInHand = 5
+		let playerHandMinusOne = ( player.myDeck.empty() && player.myHand.totalCards == (maxCardsInHand - 1) )
+		let opponentHandMinusOne = ( opponent.myDeck.empty() && opponent.myHand.totalCards == (maxCardsInHand - 1) )
+		return  playerHandMinusOne || opponentHandMinusOne
 	}
 }
