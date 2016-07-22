@@ -12,36 +12,36 @@
 //----------
 //	has weird positioning of cards(deckCards) on ipad
 //	shuffle deck should be a bit more random
+//	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
 //
 //	should have win battle/lose battle/draw battle animations(i.e indicate which player won the battle)
-//	need to show that game is over somehow( final scores show up )
-//		final scores need to show up because scoreLabels are not updated on game over
-//		should also have some animation for winning/losing game
-//			probably also for ties?
+//	need to make game over text easier to read somehow
+//		maybe place it lower in the between the middle and the players cards
+//	should also have some animation for winning/losing game
 //	Teleport/Movement Animations for opponents hand cards and choosing
 //		along side should remove opponent deck card as well when opponent has no more cards in deck
 //	maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
 //	special animation for who wins the joker
-//	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	Music
 //	Sound Effects
 //	App Icon
 //
-//	Menu with buttons for a new game, continue, credits
+//	Menu with buttons for a new game, continue, help, credits
 //		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
+//		help screen will explain the rules, and maybe have a practice game tutorial
 //	Continue Game support(only for single player against AI):
 //		should remove the save once the current game is over
 //		should save the games state after every turn
 //			will only need to save the model
-//		have to be able to load in everything
-//			hands
-//			decks
-//			middleCard/middleDeck
-//			scores
-//			colors
+//		(DONE WITH SERIALIZING, just need contents from File and TextFormatter glue)have to be able to load in everything
+//			hands(serializableDone in Deck object)
+//			decks(serializableDone in Deck object)
+//			middleCard/middleDeck(serializableDone in Card/Deck)
+//			scores(easily serializable on account of being an int)
+//			colors(can just use rawValue)
 //	Multiplayer game support using Game Center
 //	see cards.txt for other things todo
 */
@@ -214,13 +214,18 @@ class GameScene: SKScene
 		makeScoreLabel( false )
 	}
 	
+	private func updateScoreLabels()
+	{
+		playerScoreLabel.text = "Score: \(model.player.myScore)"
+		opponentScoreLabel.text = "Score: \(model.opponent.myScore)"
+	}
+	
 	func bothSidesChosen()
 	{
 		if playerChosenCard != nil && opponentChosenCard != nil
 		{
 			model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
-			playerScoreLabel.text = "Score: \(model.player.myScore)"
-			opponentScoreLabel.text = "Score: \(model.opponent.myScore)"
+			updateScoreLabels()
 			playerChosenCard!.makeDead()
 			opponentChosenCard!.makeDead()
 			middleCard.changeToCard( model.middleCard )
@@ -231,7 +236,16 @@ class GameScene: SKScene
 			if model.isGameOver()
 			{
 				model.calculateFinalScores()
+				updateScoreLabels()
 				shouldWait = true
+				if let state = model.gameWinState()
+				{
+					//CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+					let fontSize : CGFloat = 50
+					let otherSize : CGFloat = 40
+					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame),fontSize: fontSize, convertPoint: false )
+					addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - fontSize,fontSize: otherSize, convertPoint: false )
+				}
 			}
 		}
 	}

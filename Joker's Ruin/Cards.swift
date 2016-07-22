@@ -88,6 +88,28 @@ class Deck
 		myCards = withCards
 	}
 	
+	init?( fromSerial: String )
+	{
+		let cards = fromSerial.componentsSeparatedByString(" ")
+		if cards.isEmpty
+		{
+			return nil
+		}
+		
+		myCards = [Card]()
+		for cardSerial in cards
+		{
+			if let card = Card( cardSerial: cardSerial )
+			{
+				myCards.append( card )
+			}
+			else
+			{
+				return nil
+			}
+		}
+	}
+	
 	func empty() -> Bool
 	{
 		return myCards.isEmpty
@@ -152,6 +174,17 @@ class Deck
 		myCards = shuffled
 	}
 	
+	func getSerialString() -> String
+	{
+		var cardArray = [String]()
+		for card in myCards
+		{
+			cardArray.append( card.getSerialString() )
+		}
+		
+		return cardArray.joinWithSeparator(" ")
+	}
+	
 	func printDeck()
 	{
 		for card in myCards
@@ -182,6 +215,31 @@ class Card
 		self.rank = rank
 	}
 	
+	convenience init?( cardSerial : String )
+	{
+		if cardSerial.characters.count == 0
+		{
+			return nil
+		}
+		
+		if let suit = Suits.suitFromLetter( cardSerial[ 0 ] )
+		{
+			if suit == .Joker
+			{
+				self.init( suit: suit, rank: .Joker )
+				return
+			}
+			
+			if let rank = Ranks( rawValue: cardSerial[ 1 ] )
+			{
+				self.init( suit: suit, rank: rank )
+				return
+			}
+		}
+		
+		return nil
+	}
+	
 	func getSpriteString() -> String
 	{
 		return "card\(suit.rawValue)\(rank.rawValue)"
@@ -207,6 +265,11 @@ class Card
 	static func getJoker() -> Card
 	{
 		return Card( suit: .Joker, rank: .Joker )
+	}
+	
+	func getSerialString() -> String
+	{
+		return "\(suit.letterFromSuit())\(rank.rawValue)"
 	}
 }
 
@@ -234,9 +297,46 @@ enum Suits : String
 			return .Joker
 		}
 	}
+	
+	func letterFromSuit() -> String
+	{
+		switch( self )
+		{
+		case .Spades:
+			return "S"
+		case .Hearts:
+			return "H"
+		case .Diamonds:
+			return "D"
+		case .Clubs:
+			return "C"
+		case .Joker:
+			return "J"
+		}
+	}
+	
+	static func suitFromLetter( suitLetter : String ) -> Suits?
+	{
+		let charString : String = suitLetter[ 0 ]
+		switch( charString  )
+		{
+		case "S":
+			return .Spades
+		case "C":
+			return .Clubs
+		case "D":
+			return .Diamonds
+		case "H":
+			return .Hearts
+		case "J":
+			return .Joker
+		default:
+			return nil
+		}
+	}
 }
 
-enum CardColor
+enum CardColor : String
 {
 	case Red
 	case Black
@@ -307,5 +407,19 @@ enum Ranks : String
 		case .Joker:
 			return 15
 		}
+	}
+}
+
+extension String
+{
+	
+	subscript (i: Int) -> Character
+	{
+		return self[self.startIndex.advancedBy(i)]
+	}
+	
+	subscript (i: Int) -> String
+	{
+		return String(self[i] as Character)
 	}
 }

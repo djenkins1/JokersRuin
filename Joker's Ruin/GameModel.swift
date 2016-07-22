@@ -47,6 +47,21 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
+		
+		//TESTING:
+		print( "Testing Cards" )
+		let handSerialized = "SA J H7 D3 CJ"
+		print( "Before: \(handSerialized)" )
+		if let testDeck = Deck( fromSerial: handSerialized )
+		{
+			testDeck.printDeck()
+			print( "Serialized Deck: \(testDeck.getSerialString())" )
+		}
+		else
+		{
+			print( "Problem with deck" )
+		}
+		print( "" )
 	}
 	
 	func debugPrint()
@@ -163,4 +178,26 @@ class GameModel
 		let opponentHandMinusOne = ( opponent.myDeck.empty() && opponent.myHand.totalCards == (maxCardsInHand - 1) )
 		return  playerHandMinusOne || opponentHandMinusOne
 	}
+	
+	func gameWinState() -> WinState?
+	{
+		if !isGameOver()
+		{
+			return nil
+		}
+		
+		if ( player.myScore == opponent.myScore )
+		{
+			return .PlayerDraw
+		}
+		
+		return ( player.myScore > opponent.myScore ? .PlayerWon : .PlayerLost )
+	}
+}
+
+enum WinState : String
+{
+	case PlayerWon = "Won"
+	case PlayerLost = "Lost"
+	case PlayerDraw = "Tied"
 }
