@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FE00603E1D407071007127C4 /* PlayerAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE00603D1D407071007127C4 /* PlayerAI.swift */; };
 		FE2210C61D3DFEE0009F73E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210C51D3DFEE0009F73E6 /* AppDelegate.swift */; };
-		FE2210C81D3DFEE0009F73E6 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = FE2210C71D3DFEE0009F73E6 /* GameScene.sks */; };
 		FE2210CC1D3DFEE0009F73E6 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210CB1D3DFEE0009F73E6 /* GameViewController.swift */; };
 		FE2210CF1D3DFEE0009F73E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */; };
 		FE2210D11D3DFEE0009F73E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */; };
@@ -26,7 +25,6 @@
 		FE00603D1D407071007127C4 /* PlayerAI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerAI.swift; sourceTree = "<group>"; };
 		FE2210C21D3DFEE0009F73E6 /* Joker's Ruin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Joker's Ruin.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE2210C51D3DFEE0009F73E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FE2210C71D3DFEE0009F73E6 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		FE2210CB1D3DFEE0009F73E6 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		FE2210CE1D3DFEE0009F73E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -71,7 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				FE2210C51D3DFEE0009F73E6 /* AppDelegate.swift */,
-				FE2210C71D3DFEE0009F73E6 /* GameScene.sks */,
 				FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */,
 				FE2210DB1D3DFF26009F73E6 /* GameObj.swift */,
 				FE7903391D3EF0C000DFFFEF /* CardObj.swift */,
@@ -80,8 +77,8 @@
 				FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */,
 				FE00603D1D407071007127C4 /* PlayerAI.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
-				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
 				FE2210D21D3DFEE0009F73E6 /* LaunchScreen.storyboard */,
+				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
 				FE2210D51D3DFEE1009F73E6 /* Info.plist */,
 				FE2210E51D3E09C6009F73E6 /* cards.txt */,
 			);
@@ -146,7 +143,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE2210C81D3DFEE0009F73E6 /* GameScene.sks in Resources */,
 				FE2210D41D3DFEE0009F73E6 /* LaunchScreen.storyboard in Resources */,
 				FE2210D11D3DFEE0009F73E6 /* Assets.xcassets in Resources */,
 				FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */,

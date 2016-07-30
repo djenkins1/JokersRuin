@@ -14,10 +14,11 @@
 //	shuffle deck should be a bit more random
 //	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
 //
-//	should have win battle/lose battle/draw battle animations(i.e indicate which player won the battle)
 //	need to make game over text easier to read somehow
 //		maybe place it lower in the between the middle and the players cards
+//		maybe repeats fade in/out with: http://stackoverflow.com/questions/29612447/sklabel-fade-away-animation-in-swift
 //	should also have some animation for winning/losing game
+//		fireworks going off for winning
 //	Teleport/Movement Animations for opponents hand cards and choosing
 //		along side should remove opponent deck card as well when opponent has no more cards in deck
 //	maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
@@ -126,6 +127,7 @@ class GameScene: SKScene
 		
 		let middleCardY = 0.425 * screenBound.height
 		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 3 ), yStart: middleCardY , isFlipped: true )
+		middleCard.sprite.zPosition = 50
 		placeHolder2 = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 1 ), yStart: middleCardY )
 		placeHolder = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 5 ), yStart: middleCardY )
 		placeHolder.withTouchObserver( PlaceHolderTouchObserver( scene: self ) )
@@ -214,21 +216,68 @@ class GameScene: SKScene
 		makeScoreLabel( false )
 	}
 	
-	private func updateScoreLabels()
+	private func animateBattle( playerWon : Bool? )
 	{
-		playerScoreLabel.text = "Score: \(model.player.myScore)"
-		opponentScoreLabel.text = "Score: \(model.opponent.myScore)"
+		let padding : CGFloat = 200
+		let totalSecs = 1.0
+		let action : SKAction
+		if let result = playerWon
+		{
+			let newPosY : CGFloat = ( result ? 0 : UIScreen.mainScreen().bounds.height + padding )
+			action = SKAction.moveToY( newPosY, duration: totalSecs )
+		}
+		else
+		{
+			let newPosX = -padding//UIScreen.mainScreen().bounds.width + padding
+			action = SKAction.moveToX( newPosX , duration: totalSecs )
+		}
+		
+		if middleCard != nil
+		{
+			let oldPos = middleCard.sprite.position
+			middleCard.sprite.runAction( action, completion:
+				{
+					self.middleCard.changeToCard( self.model.middleCard )
+					self.middleCard.sprite.alpha = 0.0
+					self.middleCard.sprite.position = oldPos
+					self.middleCard.sprite.runAction( SKAction.fadeAlphaTo( 1.0, duration: totalSecs ) )
+					self.updateScoreLabels( playerWon )
+			})
+		}
+	}
+	
+	private func fadeScore( label : SKLabelNode, newScore : Int  )
+	{
+		let action = SKAction.fadeOutWithDuration( 0.5 )
+		label.runAction( action,  completion:
+			{
+				label.text = "Score: \(newScore)"
+				label.runAction( SKAction.fadeInWithDuration( 0.5 ) )
+		})
+	}
+	
+	private func updateScoreLabels( playerWon : Bool? )
+	{
+		if let result = playerWon
+		{
+			let score = ( result ? model.player.myScore : model.opponent.myScore )
+			let label = ( result ? playerScoreLabel : opponentScoreLabel )
+			fadeScore( label, newScore : score )
+		}
+		else
+		{
+			fadeScore( playerScoreLabel, newScore : model.player.myScore )
+			fadeScore( opponentScoreLabel, newScore: model.opponent.myScore )
+		}
 	}
 	
 	func bothSidesChosen()
 	{
 		if playerChosenCard != nil && opponentChosenCard != nil
 		{
-			model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
-			updateScoreLabels()
+			animateBattle( model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard ) )
 			playerChosenCard!.makeDead()
 			opponentChosenCard!.makeDead()
-			middleCard.changeToCard( model.middleCard )
 			playerChosenCard = nil
 			opponentChosenCard = nil
 			shouldWait = false
@@ -236,7 +285,7 @@ class GameScene: SKScene
 			if model.isGameOver()
 			{
 				model.calculateFinalScores()
-				updateScoreLabels()
+				updateScoreLabels( nil )
 				shouldWait = true
 				if let state = model.gameWinState()
 				{
