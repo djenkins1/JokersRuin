@@ -120,6 +120,7 @@ class Deck
 			}
 			else
 			{
+				print( "Bad card: \(cardSerial)" )
 				return nil
 			}
 		}
@@ -245,7 +246,7 @@ class Card
 				return
 			}
 			
-			if let rank = Ranks( rawValue: cardSerial[ 1 ] )
+			if let rank = Ranks( rawValue: cardSerial.substringFromIndex( cardSerial.startIndex.advancedBy( 1 ) ) )
 			{
 				self.init( suit: suit, rank: rank )
 				return

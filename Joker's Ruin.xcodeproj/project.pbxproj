@@ -81,12 +81,12 @@
 			isa = PBXGroup;
 			children = (
 				FE2210C51D3DFEE0009F73E6 /* AppDelegate.swift */,
+				FE2210CB1D3DFEE0009F73E6 /* GameViewController.swift */,
 				FE91F7881D4D785300BE43D4 /* MyScene.swift */,
 				FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */,
 				FE91F7841D4D721300BE43D4 /* MenuScene.swift */,
 				FE2210DB1D3DFF26009F73E6 /* GameObj.swift */,
 				FE7903391D3EF0C000DFFFEF /* CardObj.swift */,
-				FE2210CB1D3DFEE0009F73E6 /* GameViewController.swift */,
 				FE2210E11D3E01CF009F73E6 /* Cards.swift */,
 				FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */,
 				FE00603D1D407071007127C4 /* PlayerAI.swift */,

@@ -15,6 +15,7 @@
 //	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
 //		make sure the new index is not the top of the deck(zero) and if it is just get rid of joker entirely
 //
+//	Should save AI choice as well, maybe mode ai to model
 //	special animation for who wins the joker
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
 //	need to make game over text easier to read somehow
@@ -30,26 +31,14 @@
 //		have basis of menu, just need to actually implement the following:
 //		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
 //		help screen will explain the rules, and maybe have a practice game tutorial
-//		need to handle continue button, i.e disable it if there is no game to continue
 //	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
+//	credits scene should be slide show of cards with corresponding info instead of just buttons
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	Music
 //	Sound Effects
 //	App Icon
 //
-//	Continue Game support(only for single player against AI):
-//		should remove the save once the current game is over
-//			delete the file: http://stackoverflow.com/questions/34369616/delete-files-in-ios-directory-using-swift
-//			or just overwrite the file and make it empty, and use an missing/empty file/failed save as disabled continue
-//		should save the games state after every turn
-//			will only need to save the model
-//		(DONE WITH SERIALIZING, just need contents from File and TextFormatter glue)have to be able to load in everything
-//			hands(serializableDone in Deck object)
-//			decks(serializableDone in Deck object)
-//			middleCard/middleDeck(serializableDone in Card/Deck)
-//			scores(easily serializable on account of being an int)
-//			colors(can just use rawValue)
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
 //	see cards.txt for other things todo
@@ -295,12 +284,16 @@ class GameScene : MyScene
 				shouldWait = true
 				if let state = model.gameWinState()
 				{
-					//CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+					SaveHandler.clearModel()
 					let fontSize : CGFloat = 50
 					let otherSize : CGFloat = 40
 					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame),fontSize: fontSize, convertPoint: false )
 					addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - fontSize,fontSize: otherSize, convertPoint: false )
 				}
+			}
+			else
+			{
+				SaveHandler.writeModel( model )
 			}
 		}
 	}

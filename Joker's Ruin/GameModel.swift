@@ -38,6 +38,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Player deck bad" )
 			return nil
 		}
 		
@@ -47,6 +48,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Player hand bad" )
 			return nil
 		}
 		
@@ -57,6 +59,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Opponent deck bad" )
 			return nil
 		}
 		
@@ -66,6 +69,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Opponent hand bad" )
 			return nil
 		}
 		
@@ -79,6 +83,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Middle deck bad" )
 			return nil
 		}
 		
@@ -88,6 +93,7 @@ class GameModel
 		}
 		else
 		{
+			print( "Middle card bad" )
 			return nil
 		}
 		
@@ -122,6 +128,7 @@ class GameModel
 		middleCard = middleDeck.getTopCard()!
 		
 		//TESTING:
+		/*
 		print( "Testing Cards" )
 		let handSerialized = "SA J H7 D3 CJ"
 		print( "Before: \(handSerialized)" )
@@ -135,6 +142,7 @@ class GameModel
 			print( "Problem with deck" )
 		}
 		print( "" )
+		*/
 	}
 	
 	func getSerialFormat() -> Dictionary<String, String>
@@ -198,8 +206,6 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
-		
-		debugScore()
 		return toReturn
 	}
 	
@@ -255,8 +261,6 @@ class GameModel
 	{
 		finalScore( player )
 		finalScore( opponent )
-		print( "Final Scores" )
-		debugScore()
 	}
 	
 	func isGameOver() -> Bool

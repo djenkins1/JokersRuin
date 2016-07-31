@@ -20,9 +20,9 @@ class GameViewController: UIViewController
 	//changes the games state to the state provided and presents the associated scene
 	func changeState( toState : GameState )
 	{
-		clearView()
 		if let scene = sceneFromState( toState )
 		{
+			clearView()
 			let transition = SKTransition.fadeWithDuration( 1.0)
 			let skView = view as! SKView!
 			
@@ -57,6 +57,21 @@ class GameViewController: UIViewController
 		case .Credits:
 			return nil
 		case .NewGame:
+			return nil
+		case .Continue:
+			let scene = GameScene( size: sizeBox )
+			if let savedModel = SaveHandler.readModel().first
+			{
+				if let model = GameModel(objDict: savedModel )
+				{
+					scene.model = model
+					return scene
+				}
+				else
+				{
+					print( "Could not load model" )
+				}
+			}
 			return nil
 		}
 	}
@@ -108,4 +123,5 @@ enum GameState : Int
 	case Help
 	case NewGame
 	case Menu
+	case Continue
 }

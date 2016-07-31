@@ -10,6 +10,9 @@ import Foundation
 
 class SaveHandler
 {
+	static let saveName = "continueSave"
+	static let saveType = "txt"
+	
 	//attempts to write the string provided to the file in the documents directory with the name and type provided
 	static func writeDocFile( fileName : String, fileType: String, strToWrite : String )
 	{
@@ -29,9 +32,28 @@ class SaveHandler
 	//returns true if the file with the name and type provided exists in the documents directory or false otherwise
 	static func docFileExists( fileName : String , fileType: String ) -> Bool
 	{
-		let filePath = getDocumentsDirectory().stringByAppendingPathComponent("\(fileName).\(fileType)")
 		let manager = NSFileManager.defaultManager()
-		return manager.fileExistsAtPath( filePath )
+		return manager.fileExistsAtPath( getFilePath( fileName, fileType: fileType ) )
+	}
+	
+	//returns the path in the documents directory as a string to the file with the name and type provided
+	static func getFilePath( fileName : String, fileType: String ) -> String
+	{
+		return getDocumentsDirectory().stringByAppendingPathComponent("\(fileName).\(fileType)")
+	}
+	
+	static func removeDocFile( fileName: String, fileType: String )
+	{
+		let manager = NSFileManager.defaultManager()
+		do
+		{
+			try manager.removeItemAtPath( getFilePath( fileName, fileType: fileType ) )
+		}
+		catch let error as NSError
+		{
+			print(error.description)
+		}
+		
 	}
 	
 	//reads the contents of the file in the documents directory with the file name and type provided
@@ -82,5 +104,30 @@ class SaveHandler
 			print( "File not found" )
 		}
 		return toReturn
+	}
+	
+	static func writeModel( model : GameModel )
+	{
+		let objDict = model.getSerialFormat()
+		let saveStr = Process.convertToString( [objDict] )
+		SaveHandler.writeDocFile( SaveHandler.saveName , fileType: saveType, strToWrite: saveStr )
+	}
+	
+	static func clearModel()
+	{
+		//SaveHandler.writeDocFile( SaveHandler.saveName , fileType: saveType, strToWrite: "" )
+		SaveHandler.removeDocFile( SaveHandler.saveName, fileType: SaveHandler.saveType )
+	}
+	
+	static func readModel() -> Array<Dictionary<String,String>>
+	{
+		let saveStr = SaveHandler.readDocFile( SaveHandler.saveName, fileType: SaveHandler.saveType)
+		if saveStr == ""
+		{
+			return [Dictionary<String,String>]()
+		}
+		
+		print( saveStr )
+		return Process( input: saveStr ).getObjects()
 	}
 }

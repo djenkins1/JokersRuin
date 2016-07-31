@@ -25,7 +25,7 @@ class MenuScene : MyScene
 		startY += lastAddedButton.frame.height * padScale
 		
 		let buttonKeys = [ ( "New Game" , GameState.Play.rawValue ),
-		                   ( "Continue" , -1 ),
+		                   ( "Continue" , GameState.Continue.rawValue ),
 		                   ( "Help" , GameState.Help.rawValue ),
 		                   ( "Credits" , GameState.Credits.rawValue ) ]
 		
@@ -35,6 +35,11 @@ class MenuScene : MyScene
 			lastAddedButton.tag = value
 			lastAddedButton.addTarget( self, action: #selector( self.handleButtonPress(_:)) , forControlEvents: .TouchUpInside)
 			startY += lastAddedButton.frame.height * padScale
+			
+			if value == GameState.Continue.rawValue && !SaveHandler.docFileExists( SaveHandler.saveName, fileType: SaveHandler.saveType )
+			{
+				ButtonFactory.disableButton( lastAddedButton )
+			}
 		}
 	}
 	
