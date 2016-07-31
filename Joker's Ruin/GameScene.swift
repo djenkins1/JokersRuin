@@ -11,36 +11,43 @@
 //TODO:
 //----------
 //	has weird positioning of cards(deckCards) on ipad
-//	shuffle deck should be a bit more random
-//	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
-//		make sure the new index is not the top of the deck(zero) and if it is just get rid of joker entirely
 //
 //	Should save AI choice as well, maybe mode ai to model
 //	special animation for who wins the joker
+//		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
-//	need to make game over text easier to read somehow
-//		maybe place it lower in the between the middle and the players cards
-//		maybe repeats fade in/out with: http://stackoverflow.com/questions/29612447/sklabel-fade-away-animation-in-swift
 //	should also have some animation for winning/losing game
 //		fireworks going off for winning
 //	Teleport/Movement Animations for opponents hand cards and choosing
 //		along side should remove opponent deck card as well when opponent has no more cards in deck
-//	maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
+//	(???)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
 //	Menu with buttons for a new game, continue, help, credits
 //		have basis of menu, just need to actually implement the following:
-//		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
-//		help screen will explain the rules, and maybe have a practice game tutorial
+//			newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
+//			help screen will explain the rules, and maybe have a practice game tutorial
+//			credits scene should be slide show of cards with corresponding info instead of just buttons
+//
 //	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
-//	credits scene should be slide show of cards with corresponding info instead of just buttons
+//	maybe make the decks actually look like decks somehow instead of just individual cards
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
+//	(SPRITE)App Icon
 //	Music
 //	Sound Effects
-//	App Icon
+//		win battle
+//		win bonus points from battle for same color
+//		lose battle
+//		draw battle
+//		win joker
+//		win game
+//		tie game
+//		lose game
+//		draw highest card into hand for player
 //
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
+//		will also need to disable saving/deletion of model when playing multiplayer game
 //	see cards.txt for other things todo
 */
 import SpriteKit
@@ -287,8 +294,15 @@ class GameScene : MyScene
 					SaveHandler.clearModel()
 					let fontSize : CGFloat = 50
 					let otherSize : CGFloat = 40
-					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame),fontSize: fontSize, convertPoint: false )
-					addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - fontSize,fontSize: otherSize, convertPoint: false )
+					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 3 ),fontSize: fontSize, convertPoint: false )
+					let tapLabel = addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 4 ),fontSize: otherSize, convertPoint: false )
+					
+					let fadeOut = SKAction.fadeOutWithDuration(1.0)
+					let fadeIn = SKAction.fadeInWithDuration( 1.0 )
+					let sequence = SKAction.sequence([fadeOut, fadeIn])
+					let repeatForever = SKAction.repeatActionForever( sequence )
+					tapLabel.runAction( repeatForever )
+					doneScreen = true
 				}
 			}
 			else
@@ -359,6 +373,11 @@ class GameScene : MyScene
         }
 		*/
 		
+		if doneScreen
+		{
+			myController.changeState( .Menu )
+			return
+		}
 		
 		for touch in touches
 		{

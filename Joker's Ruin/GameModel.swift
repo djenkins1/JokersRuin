@@ -118,6 +118,17 @@ class GameModel
 		middleDeck.appendCard( Card(suit: .Joker, rank: .Joker) )
 		middleDeck.shuffle( 2 )
 		
+		//if the joker is at the top of the deck, shuffle the deck again
+		if middleDeck.peekAt( 0 )!.isJoker
+		{
+			middleDeck.shuffle()
+			//if the joker is still at the top of the deck, put it on the bottom of the deck
+			if middleDeck.peekAt( 0 )!.isJoker
+			{
+				middleDeck.appendCard( middleDeck.getTopCard()! )
+			}
+		}
+		
 		let cardsInHand = 5
 		for _ in 1...cardsInHand
 		{
