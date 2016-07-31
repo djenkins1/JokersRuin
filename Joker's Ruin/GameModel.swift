@@ -20,6 +20,79 @@ class GameModel
 	
 	let bonusPointsForColor = 4
 	
+	init?( objDict : Dictionary<String,String> )
+	{
+		for key in SaveConstants.allValues
+		{
+			if objDict[ key.rawValue ] == nil
+			{
+				print( "\(key.rawValue) is missing" )
+				return nil
+			}
+		}
+		
+		player = Player( color : CardColor( rawValue: objDict[SaveConstants.playerColor.rawValue]! )! )
+		if let playerDeck = Deck( fromSerial: objDict[ SaveConstants.playerDeck.rawValue]! )
+		{
+			player.changeDeck( playerDeck )
+		}
+		else
+		{
+			return nil
+		}
+		
+		if let playerHand = Deck( fromSerial: objDict[ SaveConstants.playerHand.rawValue]! )
+		{
+			player.changeHand( playerHand )
+		}
+		else
+		{
+			return nil
+		}
+		
+		opponent = Player( color: CardColor( rawValue: objDict[SaveConstants.opponentColor.rawValue]! )! )
+		if let otherDeck = Deck( fromSerial: objDict[ SaveConstants.opponentDeck.rawValue]! )
+		{
+			opponent.changeDeck( otherDeck )
+		}
+		else
+		{
+			return nil
+		}
+		
+		if let opponentHand = Deck( fromSerial: objDict[ SaveConstants.opponentHand.rawValue]! )
+		{
+			opponent.changeHand( opponentHand )
+		}
+		else
+		{
+			return nil
+		}
+		
+
+		player.changeScore( Int( objDict[ SaveConstants.playerScore.rawValue]! )! )
+		opponent.changeScore( Int( objDict[ SaveConstants.opponentScore.rawValue]! )! )
+		
+		if let deck = Deck(fromSerial: objDict[ SaveConstants.middleDeck.rawValue ]!)
+		{
+			middleDeck = deck
+		}
+		else
+		{
+			return nil
+		}
+		
+		if let card = Card(cardSerial: objDict[ SaveConstants.middleCard.rawValue ]! )
+		{
+			middleCard = card
+		}
+		else
+		{
+			return nil
+		}
+		
+	}
+	
 	init()
 	{
 		middleDeck = Deck()
@@ -62,6 +135,23 @@ class GameModel
 			print( "Problem with deck" )
 		}
 		print( "" )
+	}
+	
+	func getSerialFormat() -> Dictionary<String, String>
+	{
+		var toReturn = [String : String]()
+		toReturn[ SaveConstants.playerHand.rawValue ] = player.myHand.getSerialString()
+		toReturn[ SaveConstants.playerDeck.rawValue ] = player.myDeck.getSerialString()
+		toReturn[ SaveConstants.playerScore.rawValue ] = "\(player.myScore)"
+		toReturn[ SaveConstants.playerColor.rawValue ] = player.myColor.rawValue
+		toReturn[ SaveConstants.opponentDeck.rawValue ] = opponent.myDeck.getSerialString()
+		toReturn[ SaveConstants.opponentHand.rawValue ] = opponent.myHand.getSerialString()
+		toReturn[ SaveConstants.opponentScore.rawValue ] = "\(opponent.myScore)"
+		toReturn[ SaveConstants.opponentColor.rawValue ] = opponent.myColor.rawValue
+		toReturn[ SaveConstants.middleCard.rawValue ] = middleCard.getSerialString()
+		toReturn[ SaveConstants.middleDeck.rawValue ] = middleDeck.getSerialString()
+		
+		return toReturn
 	}
 	
 	func debugPrint()
@@ -108,8 +198,6 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
-		//player.drawCard()
-		//opponent.drawCard()
 		
 		debugScore()
 		return toReturn
@@ -200,4 +288,20 @@ enum WinState : String
 	case PlayerWon = "Won"
 	case PlayerLost = "Lost"
 	case PlayerDraw = "Tied"
+}
+
+enum SaveConstants : String
+{
+	static let allValues = [playerHand, opponentHand, playerDeck, opponentDeck, playerScore, opponentScore, playerColor, opponentColor, middleCard, middleDeck ]
+	
+	case playerHand
+	case opponentHand
+	case playerDeck
+	case opponentDeck
+	case playerScore
+	case opponentScore
+	case playerColor
+	case opponentColor
+	case middleCard
+	case middleDeck
 }

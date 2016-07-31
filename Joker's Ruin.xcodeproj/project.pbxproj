@@ -17,6 +17,9 @@
 		FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */; };
 		FE2210E21D3E01CF009F73E6 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210E11D3E01CF009F73E6 /* Cards.swift */; };
 		FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE2210E51D3E09C6009F73E6 /* cards.txt */; };
+		FE6C8AC31D4DCE6900257259 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C8AC21D4DCE6900257259 /* Process.swift */; };
+		FE6C8AC51D4DCEBB00257259 /* SaveHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */; };
+		FE6C8AC71D4DCEFA00257259 /* Credits.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE6C8AC61D4DCEFA00257259 /* Credits.txt */; };
 		FE79033A1D3EF0C000DFFFEF /* CardObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7903391D3EF0C000DFFFEF /* CardObj.swift */; };
 		FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */; };
 		FE91F7851D4D721300BE43D4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7841D4D721300BE43D4 /* MenuScene.swift */; };
@@ -37,6 +40,9 @@
 		FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FE2210E11D3E01CF009F73E6 /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		FE2210E51D3E09C6009F73E6 /* cards.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cards.txt; sourceTree = "<group>"; };
+		FE6C8AC21D4DCE6900257259 /* Process.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
+		FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveHandler.swift; sourceTree = "<group>"; };
+		FE6C8AC61D4DCEFA00257259 /* Credits.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Credits.txt; sourceTree = "<group>"; };
 		FE7903391D3EF0C000DFFFEF /* CardObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardObj.swift; sourceTree = "<group>"; };
 		FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		FE91F7841D4D721300BE43D4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -85,11 +91,14 @@
 				FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */,
 				FE00603D1D407071007127C4 /* PlayerAI.swift */,
 				FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */,
+				FE6C8AC21D4DCE6900257259 /* Process.swift */,
+				FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
 				FE2210D21D3DFEE0009F73E6 /* LaunchScreen.storyboard */,
 				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
 				FE2210D51D3DFEE1009F73E6 /* Info.plist */,
 				FE2210E51D3E09C6009F73E6 /* cards.txt */,
+				FE6C8AC61D4DCEFA00257259 /* Credits.txt */,
 			);
 			path = "Joker's Ruin";
 			sourceTree = "<group>";
@@ -152,6 +161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE6C8AC71D4DCEFA00257259 /* Credits.txt in Resources */,
 				FE2210D41D3DFEE0009F73E6 /* LaunchScreen.storyboard in Resources */,
 				FE2210D11D3DFEE0009F73E6 /* Assets.xcassets in Resources */,
 				FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */,
@@ -173,10 +183,12 @@
 				FE91F7851D4D721300BE43D4 /* MenuScene.swift in Sources */,
 				FE2210DC1D3DFF26009F73E6 /* GameObj.swift in Sources */,
 				FE2210CC1D3DFEE0009F73E6 /* GameViewController.swift in Sources */,
+				FE6C8AC51D4DCEBB00257259 /* SaveHandler.swift in Sources */,
 				FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
 				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
 				FE2210C61D3DFEE0009F73E6 /* AppDelegate.swift in Sources */,
+				FE6C8AC31D4DCE6900257259 /* Process.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,6 +40,8 @@
 //
 //	Continue Game support(only for single player against AI):
 //		should remove the save once the current game is over
+//			delete the file: http://stackoverflow.com/questions/34369616/delete-files-in-ios-directory-using-swift
+//			or just overwrite the file and make it empty, and use an missing/empty file/failed save as disabled continue
 //		should save the games state after every turn
 //			will only need to save the model
 //		(DONE WITH SERIALIZING, just need contents from File and TextFormatter glue)have to be able to load in everything
@@ -49,6 +51,7 @@
 //			scores(easily serializable on account of being an int)
 //			colors(can just use rawValue)
 //	Multiplayer game support using Game Center
+//		will probably have to refactor some of the GameScene code to make it easier for multiplayer
 //	see cards.txt for other things todo
 */
 import SpriteKit

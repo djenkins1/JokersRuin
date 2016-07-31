@@ -38,6 +38,21 @@ class Player
 		return false
 	}
 	
+	func changeDeck( deck : Deck )
+	{
+		myDeck = deck
+	}
+	
+	func changeHand( hand : Deck )
+	{
+		myHand = hand
+	}
+	
+	func changeScore( score : Int )
+	{
+		myScore = score
+	}
+	
 }
 
 class Deck

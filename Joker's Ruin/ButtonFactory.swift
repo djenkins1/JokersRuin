@@ -99,7 +99,7 @@ class ButtonFactory
 	static func disableButton( button : UIButton )
 	{
 		button.userInteractionEnabled = false
-		let image = UIImage( named: "disabledButton" ) as UIImage?
+		let image = UIImage( named: "btnGreyDef" ) as UIImage?
 		button.setBackgroundImage( image, forState: .Normal )
 		button.setTitleColor( UIColor.grayColor(), forState: .Normal)
 	}
