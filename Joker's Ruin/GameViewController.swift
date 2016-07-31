@@ -14,22 +14,64 @@ class GameViewController: UIViewController
     override func viewDidLoad()
 	{
         super.viewDidLoad()
-
-		let skView = view as! SKView!
-		let scene = GameScene(size: CGSize( width: 768, height: 1024 ))
-
-		skView.showsFPS = true
-		skView.showsNodeCount = true
-            
-		/* Sprite Kit applies additional optimizations to improve rendering performance */
-		skView.ignoresSiblingOrder = true
-            
-		/* Set the scale mode to scale to fit the window */
-		scene.scaleMode = .Fill//.AspectFit
-            
-		skView.presentScene(scene)
+		changeState( .Menu )
     }
+	
+	//changes the games state to the state provided and presents the associated scene
+	func changeState( toState : GameState )
+	{
+		clearView()
+		if let scene = sceneFromState( toState )
+		{
+			let transition = SKTransition.fadeWithDuration( 1.0)
+			let skView = view as! SKView!
+			
+			skView.showsFPS = true
+			skView.showsNodeCount = true
+			
+			/* Sprite Kit applies additional optimizations to improve rendering performance */
+			skView.ignoresSiblingOrder = true
+			
+			/* Set the scale mode to scale to fit the window */
+			scene.scaleMode = .Fill//.AspectFit
+			scene.myController = self
+			skView.presentScene( scene, transition: transition )
+		}
+		else
+		{
+			print( "Could not change state" )
+		}
+	}
+	
+	func sceneFromState( state : GameState ) -> MyScene?
+	{
+		let sizeBox = CGSize( width: 768, height: 1024 )
+		switch( state )
+		{
+		case .Menu:
+			return MenuScene( size: sizeBox )
+		case .Play:
+			return GameScene( size: sizeBox )
+		case .Help:
+			return nil
+		case .Credits:
+			return nil
+		case .NewGame:
+			return nil
+		}
+	}
 
+	func clearView()
+	{
+		if let view = view
+		{
+			for sub in view.subviews
+			{
+				sub.removeFromSuperview()
+			}
+		}
+	}
+	
     override func shouldAutorotate() -> Bool
 	{
         return true
@@ -57,4 +99,13 @@ class GameViewController: UIViewController
 	{
         return true
     }
+}
+
+enum GameState : Int
+{
+	case Play
+	case Credits
+	case Help
+	case NewGame
+	case Menu
 }

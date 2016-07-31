@@ -13,7 +13,10 @@
 //	has weird positioning of cards(deckCards) on ipad
 //	shuffle deck should be a bit more random
 //	should prevent the joker from ending up on the top of middle deck, in that case place it at a new index in the middle deck
+//		make sure the new index is not the top of the deck(zero) and if it is just get rid of joker entirely
 //
+//	special animation for who wins the joker
+//		i.e if the player wins then some kind of joker sprite laughing should show up on screen
 //	need to make game over text easier to read somehow
 //		maybe place it lower in the between the middle and the players cards
 //		maybe repeats fade in/out with: http://stackoverflow.com/questions/29612447/sklabel-fade-away-animation-in-swift
@@ -23,16 +26,18 @@
 //		along side should remove opponent deck card as well when opponent has no more cards in deck
 //	maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
-//	special animation for who wins the joker
+//	Menu with buttons for a new game, continue, help, credits
+//		have basis of menu, just need to actually implement the following:
+//		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
+//		help screen will explain the rules, and maybe have a practice game tutorial
+//		need to handle continue button, i.e disable it if there is no game to continue
+//	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	Music
 //	Sound Effects
 //	App Icon
 //
-//	Menu with buttons for a new game, continue, help, credits
-//		newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
-//		help screen will explain the rules, and maybe have a practice game tutorial
 //	Continue Game support(only for single player against AI):
 //		should remove the save once the current game is over
 //		should save the games state after every turn
@@ -49,7 +54,7 @@
 import SpriteKit
 import AVFoundation
 
-class GameScene: SKScene
+class GameScene : MyScene
 {
 	//list of game objects currently in the scene
 	var gameObjects = [GameObj]()
@@ -68,8 +73,6 @@ class GameScene: SKScene
 	
 	//a list of objects that are queued to be added to the gameObjects array
 	var objCreateQueue = [GameObj]()
-	
-	var myController : GameViewController!
 	
 	//a list of object class names, and how many instances of said class have been created
 	var objectsCreated = [ String : Int ]()
@@ -666,17 +669,6 @@ class GameScene: SKScene
 		return obj
 	}
 	
-	//creates the background image for the scene
-	func createBackground()
-	{
-		let sprite = SKSpriteNode( imageNamed: "newBackPortrait" )
-        sprite.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-		sprite.size.height = frame.height
-		sprite.size.width = frame.width
-		sprite.zPosition = 1
-		self.addChild( sprite )
-	}
-	
 	func pairIsInArray( array : Array<(Int,Int)> , indexOne: Int, indexTwo: Int ) -> Bool
 	{
 		for element in array
@@ -717,19 +709,6 @@ class GameScene: SKScene
 		return hypotf(Float( x - otherX), Float( y - otherY ) )
 	}
 	
-	func addButton( button : UIButton ) -> UIButton
-	{
-		if ( view != nil )
-		{
-			self.view!.addSubview( button )
-		}
-		else
-		{
-			print( "Could not add button" )
-		}
-		
-		return button
-	}
 	
 	static func gcd( a : Int, _ b : Int ) -> Int
 	{
