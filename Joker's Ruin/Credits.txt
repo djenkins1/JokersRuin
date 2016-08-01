@@ -14,5 +14,14 @@
 @link
 	http://www.kenney.nl
 @other
-	Basically all the art
+	Basically all the art. Also highCard.ogg and newCard.ogg
+#
+@title
+	SFX
+@author
+	Bart
+@link
+	http://opengameart.org/content/level-up-sound-effects
+@other
+	Win Sound
 #

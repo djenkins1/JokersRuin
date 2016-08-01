@@ -64,6 +64,8 @@ Needed
 Music
 
 Sound Effects
+	http://opengameart.org/content/atmospheric-interaction-sound-pack
+	used for loseGame and drawGame, winJoker, loseBattle,drawBattle, winBattle
 
 App Icon
 

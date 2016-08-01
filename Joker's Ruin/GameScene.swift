@@ -12,14 +12,12 @@
 //----------
 //	has weird positioning of cards(deckCards) on ipad
 //
-//	Should save AI choice as well, maybe mode ai to model
+//	(!!!)Should save AI choice as well, maybe mode ai to model
 //	special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
 //	should also have some animation for winning/losing game
 //		fireworks going off for winning
-//	Teleport/Movement Animations for opponents hand cards and choosing
-//		along side should remove opponent deck card as well when opponent has no more cards in deck
 //	(???)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
 //	Menu with buttons for a new game, continue, help, credits
@@ -34,16 +32,16 @@
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	(SPRITE)App Icon
 //	Music
-//	Sound Effects
-//		win battle
-//		win bonus points from battle for same color
-//		lose battle
-//		draw battle
-//		win joker
-//		win game
-//		tie game
-//		lose game
-//		draw highest card into hand for player
+//	Sound Effects(NEED IMPLEMENT)
+//		win battle---
+//		lose battle---
+//		draw battle---
+//		win joker---
+//		win game---
+//		tie game---
+//		lose game---
+//		draw highest card into hand for player---
+//		new card drawn into hand for player---
 //
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
@@ -102,8 +100,6 @@ class GameScene : MyScene
 	let playerCardPosY = UIScreen.mainScreen().bounds.height * 0.1
 	
 	let opponentCardPosY = UIScreen.mainScreen().bounds.height * 0.7
-	
-	let currentAI = EasyAI()
 	
 	var shouldWait = false
 	
@@ -286,6 +282,7 @@ class GameScene : MyScene
 			
 			if model.isGameOver()
 			{
+				flipOpponentCards()
 				model.calculateFinalScores()
 				updateScoreLabels( nil )
 				shouldWait = true
@@ -309,6 +306,18 @@ class GameScene : MyScene
 			{
 				SaveHandler.writeModel( model )
 			}
+		}
+	}
+	
+	
+	private func flipOpponentCards()
+	{
+		var index = -1
+		for cardObj in opponentCards
+		{
+			index += 1
+			cardObj.changeToCard( model.opponent.myHand.peekAt( index )! )
+			cardObj.flipCard( true )
 		}
 	}
 	
@@ -376,6 +385,11 @@ class GameScene : MyScene
 		if doneScreen
 		{
 			myController.changeState( .Menu )
+			return
+		}
+		
+		if shouldWait
+		{
 			return
 		}
 		
@@ -583,18 +597,19 @@ class GameScene : MyScene
 		if let chosenCard = model.opponent.myHand.removeAt( chosenIndex )
 		{
 			let card = chosenCard
-			self.opponentChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
-			self.opponentChosenCard!.sprite.position = self.placeHolder2.sprite.position
-			self.opponentChosenCard!.shouldConvertPosition = false
-			self.opponentChosenCard!.sprite.alpha = 0.0
-			self.opponentChosenCard!.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
-			self.opponentChosenCard!.sprite.zPosition = 20
-			self.queueGameObject( opponentChosenCard! )
-			if !model.opponent.drawCard()
-			{
-				let cardToRemove = opponentCards.removeLast()
-				cardToRemove.makeDead()
-			}
+			let chosen = opponentCards[ chosenIndex ]
+
+			chosen.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
+				self.opponentChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+				self.opponentChosenCard!.sprite.position = self.placeHolder2.sprite.position
+				self.opponentChosenCard!.shouldConvertPosition = false
+				self.opponentChosenCard!.sprite.alpha = 0.0
+				self.opponentChosenCard!.sprite.runAction( SKAction.fadeInWithDuration( 1.0 ) )
+				self.opponentChosenCard!.sprite.zPosition = 20
+				self.queueGameObject( self.opponentChosenCard! )
+				chosen.makeDead()
+				self.repositionCards( false )
+			})
 		}
 		
 	}
@@ -613,7 +628,7 @@ class GameScene : MyScene
 		if chosen != nil
 		{
 			choosePlayerCard( chosen! )
-			chooseOpponentCard( currentAI.chooseCard( model.opponent, middleCard: model.middleCard ) )
+			chooseOpponentCard( model.currentAI.chooseCard( model.opponent, middleCard: model.middleCard ) )
 			NSTimer.scheduledTimerWithTimeInterval( 2.0 , target: self, selector: #selector(self.bothSidesChosen), userInfo: nil, repeats: false)
 		}
 		else
@@ -623,58 +638,106 @@ class GameScene : MyScene
 		
 	}
 	
-	func repositionCards()
+	func repositionCards( isPlayer : Bool = true )
 	{
-		var newIndex = 0
-		var newCards = [CardObj]()
-		for cardObj in playerCards
+		if isPlayer
 		{
-			if ( cardObj.isDead )
+			var newIndex = 0
+			var newCards = [CardObj]()
+			for cardObj in playerCards
 			{
-				continue
-			}
-			else
-			{
-				newCards.append( cardObj )
-				if cardObj.placeInHand != newIndex
+				if ( cardObj.isDead )
 				{
-					cardObj.placeInHand = newIndex
-					let point = convert( CGPoint( x: getCardPosition( newIndex ), y: 0 ) )
-					let action = SKAction.moveToX( point.x, duration: 0.5 )
-					cardObj.sprite.runAction( action )
-					cardObj.sprite.zPosition -= 1
+					continue
 				}
-				newIndex += 1
+				else
+				{
+					newCards.append( cardObj )
+					if cardObj.placeInHand != newIndex
+					{
+						cardObj.placeInHand = newIndex
+						let point = convert( CGPoint( x: getCardPosition( newIndex ), y: 0 ) )
+						let action = SKAction.moveToX( point.x, duration: 0.5 )
+						cardObj.sprite.runAction( action )
+						cardObj.sprite.zPosition -= 1
+					}
+					newIndex += 1
+				}
 			}
-		}
+			
+			if self.model.player.drawCard()
+			{
+				let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, isFlipped: true )
+				newCard.placeInHand = newIndex
+				newCard.sprite.zPosition += CGFloat( newIndex )
+				newCards.append( newCard )
+				newCard.sprite.alpha = 0
+				let action = SKAction.fadeInWithDuration( 0.8 )
+				newCard.sprite.runAction( action )
+				queueGameObject( newCard )
+				deckLabel.text = "\(model.player.myDeck.totalCards)"
+			}
 		
-		if self.model.player.drawCard()
+			if self.model.player.myDeck.empty() && deckLabel != nil
+			{
+				deckLabel.removeFromParent()
+				deckLabel = nil
+				playerDeckCard.makeDead()
+				playerDeckCard = nil
+			}
+		
+			if ( model.isGameOver() )
+			{
+				middleCard.flipCard( false )
+			}
+		
+			playerCards = newCards
+		}
+		else
 		{
-			let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, isFlipped: true )
-			newCard.placeInHand = newIndex
-			newCard.sprite.zPosition += CGFloat( newIndex )
-			newCards.append( newCard )
-			newCard.sprite.alpha = 0
-			let action = SKAction.fadeInWithDuration( 0.8 )
-			newCard.sprite.runAction( action )
-			queueGameObject( newCard )
-			deckLabel.text = "\(model.player.myDeck.totalCards)"
+			var newIndex = 0
+			var newCards = [CardObj]()
+			var curIndex = -1
+			for cardObj in opponentCards
+			{
+				curIndex += 1
+				if ( cardObj.isDead )
+				{
+					continue
+				}
+				else
+				{
+					newCards.append( cardObj )
+					if curIndex != newIndex
+					{
+						let point = convert( CGPoint( x: getCardPosition( newIndex ), y: 0 ) )
+						let action = SKAction.moveToX( point.x, duration: 0.5 )
+						cardObj.sprite.runAction( action )
+						cardObj.sprite.zPosition -= 1
+					}
+					newIndex += 1
+				}
+			}
+			
+			if self.model.opponent.drawCard()
+			{
+				let newCard = CardObj( card: model.opponent.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: opponentCardPosY, isFlipped: false )
+				newCard.sprite.zPosition += CGFloat( newIndex )
+				newCards.append( newCard )
+				newCard.sprite.alpha = 0
+				let action = SKAction.fadeInWithDuration( 0.8 )
+				newCard.sprite.runAction( action )
+				queueGameObject( newCard )
+			}
+			
+			if self.model.opponent.myDeck.empty() && opponentDeckCard != nil
+			{
+				opponentDeckCard.makeDead()
+				opponentDeckCard = nil
+			}
+			
+			opponentCards = newCards
 		}
-		
-		if self.model.player.myDeck.empty() && deckLabel != nil
-		{
-			deckLabel.removeFromParent()
-			deckLabel = nil
-			playerDeckCard.makeDead()
-			playerDeckCard = nil
-		}
-		
-		if ( model.isGameOver() )
-		{
-			middleCard.flipCard( false )
-		}
-		
-		playerCards = newCards
 	}
 	
 	//adds the object to the queue for creation

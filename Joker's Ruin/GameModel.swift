@@ -18,6 +18,8 @@ class GameModel
 	
 	private(set) var middleCard : Card
 	
+	var currentAI : PlayerAI = EasyAI()
+	
 	let bonusPointsForColor = 4
 	
 	init?( objDict : Dictionary<String,String> )
@@ -97,6 +99,15 @@ class GameModel
 			return nil
 		}
 		
+		if let ai = ChoiceAI.getAI( objDict[ SaveConstants.chosenAI.rawValue]! )
+		{
+			currentAI = ai
+		}
+		else
+		{
+			print( "Bad AI choice" )
+			return nil
+		}
 	}
 	
 	init()
@@ -169,6 +180,7 @@ class GameModel
 		toReturn[ SaveConstants.opponentColor.rawValue ] = opponent.myColor.rawValue
 		toReturn[ SaveConstants.middleCard.rawValue ] = middleCard.getSerialString()
 		toReturn[ SaveConstants.middleDeck.rawValue ] = middleDeck.getSerialString()
+		toReturn[ SaveConstants.chosenAI.rawValue ] = currentAI.getChoiceAI().rawValue
 		
 		return toReturn
 	}
@@ -307,7 +319,7 @@ enum WinState : String
 
 enum SaveConstants : String
 {
-	static let allValues = [playerHand, opponentHand, playerDeck, opponentDeck, playerScore, opponentScore, playerColor, opponentColor, middleCard, middleDeck ]
+	static let allValues = [playerHand, opponentHand, playerDeck, opponentDeck, playerScore, opponentScore, playerColor, opponentColor, middleCard, middleDeck, chosenAI ]
 	
 	case playerHand
 	case opponentHand
@@ -319,4 +331,5 @@ enum SaveConstants : String
 	case opponentColor
 	case middleCard
 	case middleDeck
+	case chosenAI
 }
