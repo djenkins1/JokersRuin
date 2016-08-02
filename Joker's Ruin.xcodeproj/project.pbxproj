@@ -25,6 +25,12 @@
 		FE91F7851D4D721300BE43D4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7841D4D721300BE43D4 /* MenuScene.swift */; };
 		FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */; };
 		FE91F7891D4D785300BE43D4 /* MyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7881D4D785300BE43D4 /* MyScene.swift */; };
+		FEC0566A1D501F03000C244E /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC056691D501F03000C244E /* Music.swift */; };
+		FEC056701D501FE1000C244E /* PD_awesomeness.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566B1D501FE1000C244E /* PD_awesomeness.mp3 */; };
+		FEC056711D501FE1000C244E /* PD_Dark Alleys.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566C1D501FE1000C244E /* PD_Dark Alleys.mp3 */; };
+		FEC056721D501FE1000C244E /* PD_Magic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566D1D501FE1000C244E /* PD_Magic.mp3 */; };
+		FEC056731D501FE1000C244E /* PD_Robotic City.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */; };
+		FEC056741D501FE1000C244E /* PD_tempo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +54,12 @@
 		FE91F7841D4D721300BE43D4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonFactory.swift; sourceTree = "<group>"; };
 		FE91F7881D4D785300BE43D4 /* MyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyScene.swift; sourceTree = "<group>"; };
+		FEC056691D501F03000C244E /* Music.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
+		FEC0566B1D501FE1000C244E /* PD_awesomeness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PD_awesomeness.mp3; sourceTree = "<group>"; };
+		FEC0566C1D501FE1000C244E /* PD_Dark Alleys.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "PD_Dark Alleys.mp3"; sourceTree = "<group>"; };
+		FEC0566D1D501FE1000C244E /* PD_Magic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PD_Magic.mp3; sourceTree = "<group>"; };
+		FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "PD_Robotic City.mp3"; sourceTree = "<group>"; };
+		FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PD_tempo.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,12 +105,18 @@
 				FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */,
 				FE6C8AC21D4DCE6900257259 /* Process.swift */,
 				FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */,
+				FEC056691D501F03000C244E /* Music.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
 				FE2210D21D3DFEE0009F73E6 /* LaunchScreen.storyboard */,
 				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
 				FE2210D51D3DFEE1009F73E6 /* Info.plist */,
 				FE2210E51D3E09C6009F73E6 /* cards.txt */,
 				FE6C8AC61D4DCEFA00257259 /* Credits.txt */,
+				FEC0566B1D501FE1000C244E /* PD_awesomeness.mp3 */,
+				FEC0566C1D501FE1000C244E /* PD_Dark Alleys.mp3 */,
+				FEC0566D1D501FE1000C244E /* PD_Magic.mp3 */,
+				FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */,
+				FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */,
 			);
 			path = "Joker's Ruin";
 			sourceTree = "<group>";
@@ -163,9 +181,14 @@
 			files = (
 				FE6C8AC71D4DCEFA00257259 /* Credits.txt in Resources */,
 				FE2210D41D3DFEE0009F73E6 /* LaunchScreen.storyboard in Resources */,
+				FEC056741D501FE1000C244E /* PD_tempo.mp3 in Resources */,
 				FE2210D11D3DFEE0009F73E6 /* Assets.xcassets in Resources */,
 				FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */,
 				FE2210CF1D3DFEE0009F73E6 /* Main.storyboard in Resources */,
+				FEC056731D501FE1000C244E /* PD_Robotic City.mp3 in Resources */,
+				FEC056711D501FE1000C244E /* PD_Dark Alleys.mp3 in Resources */,
+				FEC056721D501FE1000C244E /* PD_Magic.mp3 in Resources */,
+				FEC056701D501FE1000C244E /* PD_awesomeness.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +210,7 @@
 				FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
 				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
+				FEC0566A1D501F03000C244E /* Music.swift in Sources */,
 				FE2210C61D3DFEE0009F73E6 /* AppDelegate.swift in Sources */,
 				FE6C8AC31D4DCE6900257259 /* Process.swift in Sources */,
 			);

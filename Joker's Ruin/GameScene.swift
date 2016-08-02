@@ -31,7 +31,6 @@
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	(SPRITE)App Icon
-//	Music
 //	Sound Effects(NEED IMPLEMENT)
 //		win battle---
 //		lose battle---

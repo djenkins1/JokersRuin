@@ -8,14 +8,42 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 class GameViewController: UIViewController
 {
+	private(set) var isMuted = false
+	
+	private var musicPlayer: AVPlayer!
+	
+	private var playMusicList = [Music]()
+	
     override func viewDidLoad()
 	{
         super.viewDidLoad()
+		
+		setupMusic()
+		if ( !isMuted )
+		{
+			playMusic()
+		}
+		
 		changeState( .Menu )
     }
+	
+	func setMuted( muteState : Bool )
+	{
+		isMuted = muteState
+		//saveMachine.setMuteStatus( isMuted )
+		if ( isMuted )
+		{
+			musicPlayer.pause()
+		}
+		else
+		{
+			musicPlayer.play()
+		}
+	}
 	
 	//changes the games state to the state provided and presents the associated scene
 	func changeState( toState : GameState )
@@ -114,6 +142,41 @@ class GameViewController: UIViewController
 	{
         return true
     }
+	
+	//plays the background music in a loop
+	func playMusic()
+	{
+		musicPlayer.play()
+	}
+	
+	func setupMusic()
+	{
+		playMusicList = Music.randomMusicList()
+		musicPlayer = AVPlayer( playerItem: playMusicList[ 0 ].getItem() )
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.playerDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: musicPlayer.currentItem )
+	}
+	
+	func setupNextSong()
+	{
+		playMusicList.append( playMusicList.removeAtIndex( 0 ) )
+		musicPlayer = AVPlayer( playerItem: playMusicList[ 0 ].getItem() )
+		musicPlayer.play()
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.playerDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: musicPlayer.currentItem )
+	}
+	
+	//called when the player finishes a song
+	func playerDidFinishPlaying(note: NSNotification)
+	{
+		if ( isMuted )
+		{
+			return
+		}
+		
+		NSNotificationCenter.defaultCenter().removeObserver( note.object! )
+		NSTimer.scheduledTimerWithTimeInterval(2.0 , target: self, selector: #selector(self.setupNextSong), userInfo: nil, repeats: false)
+		
+		
+	}
 }
 
 enum GameState : Int
