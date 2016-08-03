@@ -83,7 +83,7 @@ class GameViewController: UIViewController
 		case .Help:
 			return nil
 		case .Credits:
-			return nil
+			return CreditsScene( size: sizeBox )
 		case .NewGame:
 			return nil
 		case .Continue:

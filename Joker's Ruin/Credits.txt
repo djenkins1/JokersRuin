@@ -6,15 +6,19 @@
 	https://github.com/djenkins1
 @other
 	Design/Programming
+@card
+	J
 #
 @title
 	Art
 @author
-	Kenney
+	Kenney.nl
 @link
 	http://www.kenney.nl
 @other
 	Basically all the art. Also highCard.ogg and newCard.ogg
+@card
+	SA
 #
 @title
 	SFX
@@ -24,4 +28,28 @@
 	http://opengameart.org/content/level-up-sound-effects
 @other
 	Win Sound
+@card
+	DA
+#
+@title
+	Music
+@author
+	Section 31 -Tech
+@link
+	http://s31tech.org
+@other
+	Dark Alleys.mp3 and Robotic City.mp3
+@card
+	CK
+#
+@title
+	Music
+@author
+	MrPoly
+@link
+	http://opengameart.org/content/menu-music
+@other
+	awesomeness.mp3
+@card
+	SK
 #

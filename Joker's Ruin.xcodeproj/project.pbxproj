@@ -22,6 +22,7 @@
 		FE6C8AC71D4DCEFA00257259 /* Credits.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE6C8AC61D4DCEFA00257259 /* Credits.txt */; };
 		FE79033A1D3EF0C000DFFFEF /* CardObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7903391D3EF0C000DFFFEF /* CardObj.swift */; };
 		FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */; };
+		FE8A4FE21D51C3A8008B695C /* CreditsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8A4FE11D51C3A8008B695C /* CreditsScene.swift */; };
 		FE91F7851D4D721300BE43D4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7841D4D721300BE43D4 /* MenuScene.swift */; };
 		FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */; };
 		FE91F7891D4D785300BE43D4 /* MyScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE91F7881D4D785300BE43D4 /* MyScene.swift */; };
@@ -51,6 +52,7 @@
 		FE6C8AC61D4DCEFA00257259 /* Credits.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Credits.txt; sourceTree = "<group>"; };
 		FE7903391D3EF0C000DFFFEF /* CardObj.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardObj.swift; sourceTree = "<group>"; };
 		FE79033B1D3EF4EA00DFFFEF /* GameModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
+		FE8A4FE11D51C3A8008B695C /* CreditsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreditsScene.swift; sourceTree = "<group>"; };
 		FE91F7841D4D721300BE43D4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonFactory.swift; sourceTree = "<group>"; };
 		FE91F7881D4D785300BE43D4 /* MyScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyScene.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				FE91F7881D4D785300BE43D4 /* MyScene.swift */,
 				FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */,
 				FE91F7841D4D721300BE43D4 /* MenuScene.swift */,
+				FE8A4FE11D51C3A8008B695C /* CreditsScene.swift */,
 				FE2210DB1D3DFF26009F73E6 /* GameObj.swift */,
 				FE7903391D3EF0C000DFFFEF /* CardObj.swift */,
 				FE2210E11D3E01CF009F73E6 /* Cards.swift */,
@@ -210,6 +213,7 @@
 				FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
 				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
+				FE8A4FE21D51C3A8008B695C /* CreditsScene.swift in Sources */,
 				FEC0566A1D501F03000C244E /* Music.swift in Sources */,
 				FE2210C61D3DFEE0009F73E6 /* AppDelegate.swift in Sources */,
 				FE6C8AC31D4DCE6900257259 /* Process.swift in Sources */,

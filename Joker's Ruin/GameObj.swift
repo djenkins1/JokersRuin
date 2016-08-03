@@ -20,7 +20,7 @@ class GameObj
 	//this is set to true when the object should no longer function and be deleted
 	var isDead = false
 	
-	var myScene : GameScene!
+	var myScene : MyScene!
 	
 	let startHeight : CGFloat
 	
@@ -45,7 +45,7 @@ class GameObj
 	}
 	
 	//called when the object is being added to the scene, should return itself
-	func createEvent( scene : GameScene ) -> GameObj
+	func createEvent( scene : MyScene ) -> GameObj
 	{
 		myScene = scene
 		if ( shouldConvertPosition )
@@ -56,7 +56,7 @@ class GameObj
 	}
 	
 	//called when the object is being removed from the scene, should return itself
-	func deleteEvent( scene : GameScene ) -> GameObj
+	func deleteEvent( scene : MyScene ) -> GameObj
 	{
 		makeDead()
 		return self
@@ -112,7 +112,7 @@ class GameObj
 	}
 	
 	//fires when the update function is called in the GameScene
-	func updateEvent( scene : GameScene, currentFPS : Int )
+	func updateEvent( scene : MyScene , currentFPS : Int )
 	{
 
 	}

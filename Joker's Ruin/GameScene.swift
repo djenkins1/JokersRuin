@@ -24,7 +24,7 @@
 //		have basis of menu, just need to actually implement the following:
 //			newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
 //			help screen will explain the rules, and maybe have a practice game tutorial
-//			credits scene should be slide show of cards with corresponding info instead of just buttons
+//			(DONE)credits scene should be slide show of cards with corresponding info instead of just buttons
 //
 //	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
 //	maybe make the decks actually look like decks somehow instead of just individual cards
@@ -51,30 +51,9 @@ import SpriteKit
 import AVFoundation
 
 class GameScene : MyScene
-{
-	//list of game objects currently in the scene
-	var gameObjects = [GameObj]()
-	
-	//the last time that the frames were drawn, i.e update method was called
-	var lastTime : CFTimeInterval = 0
-	
-	//the last value for the FPS in update
-	private(set) var lastFPS : Int = 0
-	
-	//whether the update function is paused or not
-	var pauseUpdate = false
-	
+{		
 	//whether the current game level is won/lost or is still being played
 	var doneScreen = false
-	
-	//a list of objects that are queued to be added to the gameObjects array
-	var objCreateQueue = [GameObj]()
-	
-	//a list of object class names, and how many instances of said class have been created
-	var objectsCreated = [ String : Int ]()
-	
-	//a list of object class names, and how many instances of said class have been destroyed
-	var objectsDestroyed = [ String : Int ]()
 	
 	var model = GameModel()
 	
@@ -123,7 +102,7 @@ class GameScene : MyScene
 		createBackground()
 		
 		let middleCardY = 0.425 * screenBound.height
-		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 3 ), yStart: middleCardY , isFlipped: true )
+		middleCard = CardObj( card : model.middleCard , xStart: getCardPosition( model.player.myHand.totalCards - 3 ), yStart: middleCardY , showFace: true )
 		middleCard.sprite.zPosition = 50
 		placeHolder2 = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 1 ), yStart: middleCardY )
 		placeHolder = GameObj( spriteName: "cardPlace" , xStart: getCardPosition( model.player.myHand.totalCards - 5 ), yStart: middleCardY )
@@ -172,7 +151,7 @@ class GameScene : MyScene
 			if let card = deckFrom.peekAt( i )
 			{
 				let xPos = getCardPosition( i )
-				let cardView = CardObj( card: card, xStart: xPos , yStart: yPos, isFlipped: facingTop )
+				let cardView = CardObj( card: card, xStart: xPos , yStart: yPos, showFace: facingTop )
 				cardView.sprite.zPosition += CGFloat( i )
 				if facingTop
 				{
@@ -188,21 +167,16 @@ class GameScene : MyScene
 	
 	private func addDeckCard( totalCards : Int, yPos : CGFloat ) -> CardObj
 	{
-		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, isFlipped: true ).sprite.frame.width
+		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, showFace: true ).sprite.frame.width
 		let xPos = getCardPosition( totalCards ) + ( cardSize * 0.4 )
-		return CardObj( card: Card( suit: .Joker, rank: .Joker ), xStart: xPos , yStart: yPos, isFlipped: false )
+		return CardObj( card: Card( suit: .Joker, rank: .Joker ), xStart: xPos , yStart: yPos, showFace: false )
 	}
 	
 	private func getCardPosition( index: Int ) -> CGFloat
 	{
 		let leftMostX = UIScreen.mainScreen().bounds.width * 0.05
-		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, isFlipped: true ).sprite.frame.width
+		let cardSize = CardObj( card: Card.getJoker() , xStart : 0, yStart: 0, showFace: true ).sprite.frame.width
 		return ( CGFloat( index ) * ( cardSize * 0.25 ) ) + leftMostX
-	}
-	
-	func convert( point: CGPoint ) -> CGPoint
-	{
-		return self.view!.convertPoint(CGPoint(x: point.x, y: self.view!.frame.height - point.y), toScene:self)
 	}
 	
 	private func addOpponentCardsToView()
@@ -320,67 +294,9 @@ class GameScene : MyScene
 		}
 	}
 	
-	/* Called before each frame is rendered */
-	override func update(currentTime: CFTimeInterval)
-	{
-		//get the difference in time from last time
-		let deltaTime = currentTime - lastTime
-		let currentFPS = Int( floor( 1 / deltaTime ) )
-		lastTime = currentTime
-	
-		if ( pauseUpdate )
-		{
-			return
-		}
-		
-		var newList = [GameObj]()
-		for obj in gameObjects
-		{
-			if ( obj.isDead )
-			{
-				removeGameObject( obj )
-				continue
-			}
-			
-			obj.updateEvent( self, currentFPS: currentFPS )
-			newList.append( obj )
-		}
-
-		gameObjects.removeAll()
-		gameObjects = newList
-		
-		for obj in objCreateQueue
-		{
-			addGameObject( obj )
-			objCreateQueue.removeFirst()
-		}
-
-		lastFPS = currentFPS
-		lastTime = currentTime
-	}
-	
 	/* Called when a touch begins */
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-	{
-        /*
-        for touch in touches
-		{
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
-		*/
-		
+	{		
 		if doneScreen
 		{
 			myController.changeState( .Menu )
@@ -392,17 +308,7 @@ class GameScene : MyScene
 			return
 		}
 		
-		for touch in touches
-		{
-			let location = touch.locationInNode(self)
-			for obj in gameObjects
-			{
-				if obj.sprite.frame.contains( location )
-				{
-					obj.touchEvent( location )
-				}
-			}
-		}
+		super.touchesBegan( touches, withEvent: event )
     }
 	
 	/*
@@ -477,20 +383,6 @@ class GameScene : MyScene
 	
 	*/
 	
-	func addMakeLabel( message : String, xPos : CGFloat, yPos : CGFloat, fontSize : CGFloat, convertPoint : Bool = true ) -> SKLabelNode
-	{
-		let myFont = "Thonburi"//"Verdana"//"Thonburi"
-		let otherLabel = SKLabelNode(fontNamed: myFont )
-		otherLabel.text = message
-		otherLabel.fontSize = fontSize
-		let prePoint = CGPoint(x: xPos , y: yPos )
-		otherLabel.position = ( convertPoint ? convert( prePoint ) : prePoint )
-		otherLabel.zPosition = 100
-		otherLabel.fontColor = UIColor.blackColor()
-		self.addChild(otherLabel)
-		return otherLabel
-	}
-	
 	/*
 	func addMakeSprite( spriteName : String, xPos : CGFloat, yPos : CGFloat ) -> SKSpriteNode
 	{
@@ -502,52 +394,6 @@ class GameScene : MyScene
 		return sprite
 	}
 	*/
-	
-	func playSoundEffect( fileName : String )
-	{
-		/*
-		if ( myController != nil && myController.isMuted )
-		{
-			return
-		}
-		runAction(SKAction.playSoundFileNamed( fileName , waitForCompletion: false))
-		*/
-	}
-	
-	//removes the game object from the list of game objects and from the scene
-	final func removeGameObject( obj : GameObj )
-	{
-		let objClass = obj.className()
-		if ( objectsDestroyed[ objClass ] != nil )
-		{
-			objectsDestroyed[  objClass ]! += 1
-		}
-		else
-		{
-			objectsDestroyed[ objClass ] = 1
-		}
-		
-		obj.deleteEvent( self )
-		self.removeChildrenInArray( [ obj.sprite ])
-	}
-	
-	//adds the object and its sprite to the game view data, returns obj for chaining
-	final func addGameObject( obj : GameObj ) -> GameObj
-	{
-		let objClass = obj.className()
-		if ( objectsCreated[ objClass ] != nil )
-		{
-			objectsCreated[  objClass ]! += 1
-		}
-		else
-		{
-			objectsCreated[ objClass ] = 1
-		}
-		
-		self.gameObjects.append( obj.createEvent( self ) )
-		self.addChild( obj.sprite )
-		return obj
-	}
 	
 	func clickCard( chosen : Int )
 	{
@@ -579,7 +425,7 @@ class GameScene : MyScene
 		chosen.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
 			let card = chosen.myCard
 			chosen.makeDead()
-			self.playerChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+			self.playerChosenCard = CardObj( card: card, xStart: 0, yStart: 0, showFace: true )
 			self.playerChosenCard!.sprite.position = self.placeHolder.sprite.position
 			self.playerChosenCard!.shouldConvertPosition = false
 			self.playerChosenCard!.sprite.alpha = 0.0
@@ -599,7 +445,7 @@ class GameScene : MyScene
 			let chosen = opponentCards[ chosenIndex ]
 
 			chosen.sprite.runAction( SKAction.fadeOutWithDuration( 1.0 ), completion: {
-				self.opponentChosenCard = CardObj( card: card, xStart: 0, yStart: 0, isFlipped: true )
+				self.opponentChosenCard = CardObj( card: card, xStart: 0, yStart: 0, showFace: true )
 				self.opponentChosenCard!.sprite.position = self.placeHolder2.sprite.position
 				self.opponentChosenCard!.shouldConvertPosition = false
 				self.opponentChosenCard!.sprite.alpha = 0.0
@@ -666,7 +512,7 @@ class GameScene : MyScene
 			
 			if self.model.player.drawCard()
 			{
-				let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, isFlipped: true )
+				let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, showFace: true )
 				newCard.placeInHand = newIndex
 				newCard.sprite.zPosition += CGFloat( newIndex )
 				newCards.append( newCard )
@@ -720,7 +566,7 @@ class GameScene : MyScene
 			
 			if self.model.opponent.drawCard()
 			{
-				let newCard = CardObj( card: model.opponent.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: opponentCardPosY, isFlipped: false )
+				let newCard = CardObj( card: model.opponent.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: opponentCardPosY, showFace: false )
 				newCard.sprite.zPosition += CGFloat( newIndex )
 				newCards.append( newCard )
 				newCard.sprite.alpha = 0
@@ -739,47 +585,7 @@ class GameScene : MyScene
 		}
 	}
 	
-	//adds the object to the queue for creation
-	func queueGameObject( obj : GameObj ) -> GameObj
-	{
-		self.objCreateQueue.append( obj )
-		return obj
-	}
-	
-	func pairIsInArray( array : Array<(Int,Int)> , indexOne: Int, indexTwo: Int ) -> Bool
-	{
-		for element in array
-		{
-			if ( element.0 == indexOne && element.1 == indexTwo )
-			{
-				return true
-			}
-			
-			if ( element.0 == indexTwo && element.1 == indexOne )
-			{
-				return true
-			}
-		}
-		
-		return false
-	}
-	
-	//returns all GameObj instances currently in the scene of the type provided
-	//does not return any objects of a subclass
-	func allObjectsOfType( ofType : GameObj.Type ) -> Array<GameObj>
-	{
-		var toReturn = [GameObj]()
-		for obj in gameObjects
-		{
-			if object_getClass( obj ) == ofType
-			{
-				toReturn.append( obj )
-			}
-		}
-		
-		return toReturn
-	}
-	
+	/*
 	//returns the hypotenuse distance between the two points provided
 	static func distanceBetween( x : CGFloat, y: CGFloat, otherX : CGFloat, otherY: CGFloat ) -> Float
 	{
@@ -795,6 +601,7 @@ class GameScene : MyScene
 		}
 		return gcd( b, a % b )
 	}
+	*/
 }
 
 class PlaceHolderTouchObserver : TouchEventObserver

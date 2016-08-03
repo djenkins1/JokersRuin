@@ -13,15 +13,15 @@ class CardObj : GameObj
 {
 	private(set) var myCard : Card
 	
-	private(set) var myFlip : Bool
+	private(set) var showFace : Bool
 	
 	var placeInHand = -1
 	
-	init( card : Card, xStart : CGFloat, yStart: CGFloat, isFlipped : Bool )
+	init( card : Card, xStart : CGFloat, yStart: CGFloat, showFace : Bool )
 	{
 		myCard = card
-		myFlip = isFlipped
-		let spriteName = ( myFlip ? card.getSpriteString() : CardObj.getCardBackSprite() )
+		self.showFace = showFace
+		let spriteName = ( showFace ? card.getSpriteString() : CardObj.getCardBackSprite() )
 		super.init(spriteName: spriteName, xStart: xStart, yStart: yStart )
 		sprite.zPosition += 1
 	}
@@ -35,15 +35,15 @@ class CardObj : GameObj
 	override func touchEvent(location: CGPoint)
 	{
 		super.touchEvent( location )
-		if ( myScene != nil && placeInHand != -1 )
+		if ( myScene != nil && placeInHand != -1 && myScene is GameScene )
 		{
-			myScene.clickCard( placeInHand )
+			(myScene as! GameScene).clickCard( placeInHand )
 		}
 	}
 	
 	private func updateSprite()
 	{
-		if ( myFlip )
+		if ( showFace )
 		{
 			setSprite( myCard.getSpriteString() )
 		}
@@ -55,7 +55,7 @@ class CardObj : GameObj
 	
 	func flipCard( toFront : Bool )
 	{
-		myFlip = toFront
+		showFace = toFront
 		updateSprite()
 	}
 	
