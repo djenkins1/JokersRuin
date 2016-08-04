@@ -85,7 +85,7 @@ class GameViewController: UIViewController
 		case .Credits:
 			return CreditsScene( size: sizeBox )
 		case .NewGame:
-			return nil
+			return NewGameScene( size: sizeBox )
 		case .Continue:
 			let scene = GameScene( size: sizeBox )
 			if let savedModel = SaveHandler.readModel().first

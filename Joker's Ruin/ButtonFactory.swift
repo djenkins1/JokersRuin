@@ -103,6 +103,21 @@ class ButtonFactory
 		button.setBackgroundImage( image, forState: .Normal )
 		button.setTitleColor( UIColor.grayColor(), forState: .Normal)
 	}
+	
+	static func boxSizeFromType( type : ButtonType ) -> CGRect
+	{
+		switch( type )
+		{
+		case .TitleButton:
+			let screenWidth = UIScreen.mainScreen().bounds.width
+			let titleWidth = ceil(screenWidth * 0.5)
+			return CGRect( x: 0, y: 0, width: titleWidth, height: defaultHeight )
+		case .MenuButton:
+			return CGRect( x: 0, y: 0, width: defaultWidth, height: defaultHeight )
+		case .SmallButton:
+			return CGRect( x: 0, y: 0, width: defaultHeight, height: defaultHeight )
+		}
+	}
 }
 
 enum ButtonType : String

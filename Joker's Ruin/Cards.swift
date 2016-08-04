@@ -17,7 +17,7 @@ class Player
 	
 	var myScore : Int
 	
-	let myColor : CardColor
+	private(set) var myColor : CardColor
 	
 	init( color : CardColor )
 	{
@@ -36,6 +36,13 @@ class Player
 		}
 		
 		return false
+	}
+	
+	//sets myColor to the color provided and returns itself to allow for chaining
+	func withColor( color : CardColor ) -> Player
+	{
+		myColor = color
+		return self
 	}
 	
 	func changeDeck( deck : Deck )

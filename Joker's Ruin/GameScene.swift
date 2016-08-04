@@ -22,7 +22,7 @@
 //		deck card would have indexInHand equal to totalCards in hand
 //	Menu with buttons for a new game, continue, help, credits
 //		have basis of menu, just need to actually implement the following:
-//			newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent
+//			newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent and choose color if computer opponent
 //			help screen will explain the rules, and maybe have a practice game tutorial
 //			(DONE)credits scene should be slide show of cards with corresponding info instead of just buttons
 //
@@ -45,6 +45,7 @@
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
 //		will also need to disable saving/deletion of model when playing multiplayer game
+//			maybe move save code into model function and then call said function with if statement inside to determine if multiplayer
 //	see cards.txt for other things todo
 */
 import SpriteKit

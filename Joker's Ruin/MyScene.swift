@@ -171,6 +171,11 @@ class MyScene : SKScene
 		return self.view!.convertPoint(CGPoint(x: point.x, y: self.view!.frame.height - point.y), toScene:self)
 	}
 	
+	func convertPointY( yPos : CGFloat ) -> CGFloat
+	{
+		return convert( CGPoint( x: 0, y: yPos ) ).y
+	}
+	
 	//returns all GameObj instances currently in the scene of the type provided
 	//does not return any objects of a subclass
 	func allObjectsOfType( ofType : GameObj.Type ) -> Array<GameObj>

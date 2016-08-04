@@ -36,10 +36,10 @@ class CreditsScene : MyScene
 		let padScale : CGFloat = 1.8
 		let lastAddedButton = addButton( ButtonFactory.createCenteredButton( "Credits", buttonType: .TitleButton , yPos: startY ) )
 		startY += lastAddedButton.frame.height * padScale
-		startY = convert( CGPoint( x: 0, y: startY ) ).y
+		startY = convertPointY( startY )
 		
 		cardSprite = CardObj( card: Card( suit: .Hearts, rank: .Queen ), xStart: self.view!.frame.width * 0.5, yStart: startY, showFace: true )
-		cardSprite.withTouchObserver( CardTouched( scene : self ) )
+		cardSprite.withTouchObserver( CreditsCardTouched( scene : self ) )
 		cardSprite.sprite.anchorPoint = CGPoint( x: 0.5, y: 0.5)
 		cardSprite.sprite.xScale = 2.0
 		cardSprite.sprite.yScale = 2.0
@@ -114,7 +114,7 @@ class CreditsScene : MyScene
 }
 
 
-class CardTouched : TouchEventObserver
+class CreditsCardTouched : TouchEventObserver
 {
 	let scene : CreditsScene
 	

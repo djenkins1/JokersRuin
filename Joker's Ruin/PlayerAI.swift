@@ -61,4 +61,20 @@ enum ChoiceAI : String
 			return nil
 		}
 	}
+	
+	func getMyAI() -> PlayerAI
+	{
+		switch( self )
+		{
+		case .Easy:
+			return EasyAI()
+		case .Medium:
+			return MediumAI()
+		}
+	}
+	
+	static func allComputerAI() -> [ChoiceAI]
+	{
+		return [ .Easy, .Medium ]
+	}
 }

@@ -24,9 +24,9 @@ class MenuScene : MyScene
 		var lastAddedButton = addButton( ButtonFactory.createCenteredButton( "Joker's Ruin", buttonType: .TitleButton , yPos: startY ) )
 		startY += lastAddedButton.frame.height * padScale
 		
-		let buttonKeys = [ ( "New Game" , GameState.Play.rawValue ),
+		let buttonKeys = [ ( "New Game" , GameState.Play.rawValue ),//change to : GameState.NewGame.rawValue
 		                   ( "Continue" , GameState.Continue.rawValue ),
-		                   ( "Help" , GameState.Help.rawValue ),
+		                   ( "Help" , GameState.NewGame.rawValue ), //change back to: GameState.Help.rawValue
 		                   ( "Credits" , GameState.Credits.rawValue ) ]
 		
 		for ( key, value ) in buttonKeys
