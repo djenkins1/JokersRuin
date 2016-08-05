@@ -378,6 +378,19 @@ enum CardColor : String
 			
 		}
 	}
+	
+	func oppositeColor() -> CardColor
+	{
+		switch( self )
+		{
+		case .Red:
+			return .Black
+		case .Black:
+			return .Red
+		case .Joker:
+			return self
+		}
+	}
 }
 
 enum Ranks : String

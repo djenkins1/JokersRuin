@@ -118,6 +118,22 @@ class ButtonFactory
 			return CGRect( x: 0, y: 0, width: defaultHeight, height: defaultHeight )
 		}
 	}
+	
+	static func makeButtonDifferent( button: UIButton, revertToSame : Bool = false )
+	{
+		if revertToSame
+		{
+			let backImage = UIImage( named: ButtonType.MenuButton.rawValue ) as UIImage?
+			button.setBackgroundImage( backImage, forState:  .Normal )
+			button.setTitleColor( UIColor.blackColor(), forState: .Normal )
+		}
+		else
+		{
+			let backImage = UIImage( named: "btnGreenPrs" ) as UIImage?
+			button.setBackgroundImage( backImage, forState:  .Normal )
+			button.setTitleColor( UIColor.whiteColor(), forState: .Normal )
+		}
+	}
 }
 
 enum ButtonType : String

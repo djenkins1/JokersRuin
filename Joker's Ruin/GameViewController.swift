@@ -50,25 +50,37 @@ class GameViewController: UIViewController
 	{
 		if let scene = sceneFromState( toState )
 		{
-			clearView()
-			let transition = SKTransition.fadeWithDuration( 1.0)
-			let skView = view as! SKView!
-			
-			skView.showsFPS = true
-			skView.showsNodeCount = true
-			
-			/* Sprite Kit applies additional optimizations to improve rendering performance */
-			skView.ignoresSiblingOrder = true
-			
-			/* Set the scale mode to scale to fit the window */
-			scene.scaleMode = .Fill//.AspectFit
-			scene.myController = self
-			skView.presentScene( scene, transition: transition )
+			changeScene( scene )
 		}
 		else
 		{
 			print( "Could not change state" )
 		}
+	}
+	
+	func newGameFromModel( model : GameModel )
+	{
+		let scene = sceneFromState( .Play )
+		( scene as! GameScene ).model = model
+		changeScene( scene! )
+	}
+	
+	private func changeScene( scene : MyScene )
+	{
+		clearView()
+		let transition = SKTransition.fadeWithDuration( 1.0)
+		let skView = view as! SKView!
+		
+		skView.showsFPS = true
+		skView.showsNodeCount = true
+		
+		/* Sprite Kit applies additional optimizations to improve rendering performance */
+		skView.ignoresSiblingOrder = true
+		
+		/* Set the scale mode to scale to fit the window */
+		scene.scaleMode = .Fill//.AspectFit
+		scene.myController = self
+		skView.presentScene( scene, transition: transition )
 	}
 	
 	func sceneFromState( state : GameState ) -> MyScene?

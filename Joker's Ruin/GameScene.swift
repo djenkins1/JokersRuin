@@ -12,7 +12,8 @@
 //----------
 //	has weird positioning of cards(deckCards) on ipad
 //
-//	(!!!)Should save AI choice as well, maybe mode ai to model
+//	finish up HardAI
+//	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen

@@ -43,11 +43,30 @@ class MediumAI : PlayerAI
 	}
 }
 
+class HardAI : PlayerAI
+{
+	func chooseCard( player : Player, middleCard : Card ) -> Int
+	{
+		//TODO: should play lowest card if middle card is joker
+		//		should play highest card based on worth of card in middle, and based on if card in middle is same color
+		
+		
+		return player.myHand.bestCardIndex
+	}
+	
+	func getChoiceAI() -> ChoiceAI
+	{
+		return .Hard
+	}
+}
+
 enum ChoiceAI : String
 {
 	case Easy
 	
 	case Medium
+	
+	case Hard
 	
 	static func getAI( strValue : String ) -> PlayerAI?
 	{
@@ -57,6 +76,8 @@ enum ChoiceAI : String
 			return EasyAI()
 		case Medium.rawValue:
 			return MediumAI()
+		case Hard.rawValue:
+			return HardAI()
 		default:
 			return nil
 		}
@@ -70,11 +91,13 @@ enum ChoiceAI : String
 			return EasyAI()
 		case .Medium:
 			return MediumAI()
+		case .Hard:
+			return HardAI()
 		}
 	}
 	
 	static func allComputerAI() -> [ChoiceAI]
 	{
-		return [ .Easy, .Medium ]
+		return [ .Easy, .Medium, .Hard ]
 	}
 }
