@@ -92,6 +92,22 @@ class Deck
 		return toReturn
 	}
 	
+	var worstCardIndex : Int
+	{
+		var toReturn = 0
+		for i in 1..<myCards.count
+		{
+			let currentWorst = myCards[ toReturn ]
+			let currentCard = myCards[ i ]
+			if ( currentWorst.betterScore( currentCard ) )
+			{
+				toReturn = i
+			}
+		}
+		
+		return toReturn
+	}
+	
 	init()
 	{
 		let suits : [Suits] = [ .Clubs, .Diamonds, .Hearts, .Spades ]

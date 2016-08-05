@@ -11,8 +11,11 @@
 //TODO:
 //----------
 //	has weird positioning of cards(deckCards) on ipad
+//	should test positioning of credits/new game scene on smaller/bigger iphones other than 5s
 //
-//	finish up HardAI
+//	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
+//	add mute button to menu similar to Grove Hero/Gemicus
+//	add sound effect code for drawing high card/new card
 //	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
@@ -23,25 +26,13 @@
 //		deck card would have indexInHand equal to totalCards in hand
 //	Menu with buttons for a new game, continue, help, credits
 //		have basis of menu, just need to actually implement the following:
-//			newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent and choose color if computer opponent
 //			help screen will explain the rules, and maybe have a practice game tutorial
+//			(DONE)newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent and choose color if computer opponent
 //			(DONE)credits scene should be slide show of cards with corresponding info instead of just buttons
 //
-//	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
-//	maybe make the decks actually look like decks somehow instead of just individual cards
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
 //	(SPRITE)App Icon
-//	Sound Effects(NEED IMPLEMENT)
-//		win battle---
-//		lose battle---
-//		draw battle---
-//		win joker---
-//		win game---
-//		tie game---
-//		lose game---
-//		draw highest card into hand for player---
-//		new card drawn into hand for player---
 //
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
@@ -244,11 +235,36 @@ class GameScene : MyScene
 		}
 	}
 	
+	private func playBattleSounds( result : Bool?, isJoker : Bool )
+	{
+		let sound : SFX
+		if let isWon = result
+		{
+			if isJoker && isWon
+			{
+				sound = .WinJoker
+			}
+			else
+			{
+				sound = ( isWon ? .WinBattle : .LoseBattle )
+			}
+		}
+		else
+		{
+			sound = .DrawBattle
+		}
+		
+		playSoundEffect( sound )
+	}
+	
 	func bothSidesChosen()
 	{
 		if playerChosenCard != nil && opponentChosenCard != nil
 		{
-			animateBattle( model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard ) )
+			let isJoker = model.middleCard.isJoker
+			let battleResult = model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
+			animateBattle( battleResult )
+			playBattleSounds( battleResult, isJoker: isJoker )
 			playerChosenCard!.makeDead()
 			opponentChosenCard!.makeDead()
 			playerChosenCard = nil
@@ -266,6 +282,7 @@ class GameScene : MyScene
 					SaveHandler.clearModel()
 					let fontSize : CGFloat = 50
 					let otherSize : CGFloat = 40
+					playGameOverSound( state )
 					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 3 ),fontSize: fontSize, convertPoint: false )
 					let tapLabel = addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 4 ),fontSize: otherSize, convertPoint: false )
 					
@@ -284,6 +301,21 @@ class GameScene : MyScene
 		}
 	}
 	
+	private func playGameOverSound( state : WinState )
+	{
+		let sound : SFX
+		switch( state )
+		{
+		case .PlayerDraw:
+			sound = .TieGame
+		case .PlayerWon:
+			sound = .WinGame
+		case .PlayerLost:
+			sound = .LoseGame
+		}
+		
+		playSoundEffect( sound )
+	}
 	
 	private func flipOpponentCards()
 	{

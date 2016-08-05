@@ -47,9 +47,12 @@ class HardAI : PlayerAI
 {
 	func chooseCard( player : Player, middleCard : Card ) -> Int
 	{
-		//TODO: should play lowest card if middle card is joker
-		//		should play highest card based on worth of card in middle, and based on if card in middle is same color
-		
+		//play the lowest card in the hand if the middle card is a joker
+		//	or play the highest card otherwise
+		if middleCard.isJoker
+		{
+			return player.myHand.worstCardIndex
+		}
 		
 		return player.myHand.bestCardIndex
 	}

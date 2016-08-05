@@ -113,15 +113,13 @@ class MyScene : SKScene
 		return otherLabel
 	}
 	
-	func playSoundEffect( fileName : String )
+	func playSoundEffect( sound : SFX )
 	{
-		/*
-		if ( myController != nil && myController.isMuted )
+		if myController.isMuted
 		{
-		return
+			return
 		}
-		runAction(SKAction.playSoundFileNamed( fileName , waitForCompletion: false))
-		*/
+		runAction(SKAction.playSoundFileNamed( sound.getFileName() , waitForCompletion: false))
 	}
 	
 	//removes the game object from the list of game objects and from the scene

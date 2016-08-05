@@ -33,6 +33,16 @@
 		FEC056731D501FE1000C244E /* PD_Robotic City.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */; };
 		FEC056741D501FE1000C244E /* PD_tempo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */; };
 		FEC0772B1D52AED400494411 /* NewGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC0772A1D52AED400494411 /* NewGameScene.swift */; };
+		FECD358C1D554690007C24D8 /* SFX.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECD358B1D554690007C24D8 /* SFX.swift */; };
+		FECD35961D5546BE007C24D8 /* drawBattle.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD358D1D5546BE007C24D8 /* drawBattle.wav */; };
+		FECD35971D5546BE007C24D8 /* drawGame.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD358E1D5546BE007C24D8 /* drawGame.wav */; };
+		FECD35981D5546BE007C24D8 /* highCard.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD358F1D5546BE007C24D8 /* highCard.wav */; };
+		FECD35991D5546BE007C24D8 /* loseBattle.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35901D5546BE007C24D8 /* loseBattle.wav */; };
+		FECD359A1D5546BE007C24D8 /* loseGame.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35911D5546BE007C24D8 /* loseGame.wav */; };
+		FECD359B1D5546BE007C24D8 /* newCard.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35921D5546BE007C24D8 /* newCard.wav */; };
+		FECD359C1D5546BE007C24D8 /* winBattle.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35931D5546BE007C24D8 /* winBattle.wav */; };
+		FECD359D1D5546BE007C24D8 /* winGame.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35941D5546BE007C24D8 /* winGame.wav */; };
+		FECD359E1D5546BE007C24D8 /* winJoker.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35951D5546BE007C24D8 /* winJoker.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +74,16 @@
 		FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "PD_Robotic City.mp3"; sourceTree = "<group>"; };
 		FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PD_tempo.mp3; sourceTree = "<group>"; };
 		FEC0772A1D52AED400494411 /* NewGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameScene.swift; sourceTree = "<group>"; };
+		FECD358B1D554690007C24D8 /* SFX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFX.swift; sourceTree = "<group>"; };
+		FECD358D1D5546BE007C24D8 /* drawBattle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drawBattle.wav; sourceTree = "<group>"; };
+		FECD358E1D5546BE007C24D8 /* drawGame.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = drawGame.wav; sourceTree = "<group>"; };
+		FECD358F1D5546BE007C24D8 /* highCard.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = highCard.wav; sourceTree = "<group>"; };
+		FECD35901D5546BE007C24D8 /* loseBattle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = loseBattle.wav; sourceTree = "<group>"; };
+		FECD35911D5546BE007C24D8 /* loseGame.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = loseGame.wav; sourceTree = "<group>"; };
+		FECD35921D5546BE007C24D8 /* newCard.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = newCard.wav; sourceTree = "<group>"; };
+		FECD35931D5546BE007C24D8 /* winBattle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winBattle.wav; sourceTree = "<group>"; };
+		FECD35941D5546BE007C24D8 /* winGame.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winGame.wav; sourceTree = "<group>"; };
+		FECD35951D5546BE007C24D8 /* winJoker.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winJoker.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +132,7 @@
 				FE6C8AC21D4DCE6900257259 /* Process.swift */,
 				FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */,
 				FEC056691D501F03000C244E /* Music.swift */,
+				FECD358B1D554690007C24D8 /* SFX.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
 				FE2210D21D3DFEE0009F73E6 /* LaunchScreen.storyboard */,
 				FE2210D01D3DFEE0009F73E6 /* Assets.xcassets */,
@@ -123,6 +144,15 @@
 				FEC0566D1D501FE1000C244E /* PD_Magic.mp3 */,
 				FEC0566E1D501FE1000C244E /* PD_Robotic City.mp3 */,
 				FEC0566F1D501FE1000C244E /* PD_tempo.mp3 */,
+				FECD358D1D5546BE007C24D8 /* drawBattle.wav */,
+				FECD358E1D5546BE007C24D8 /* drawGame.wav */,
+				FECD358F1D5546BE007C24D8 /* highCard.wav */,
+				FECD35901D5546BE007C24D8 /* loseBattle.wav */,
+				FECD35911D5546BE007C24D8 /* loseGame.wav */,
+				FECD35921D5546BE007C24D8 /* newCard.wav */,
+				FECD35931D5546BE007C24D8 /* winBattle.wav */,
+				FECD35941D5546BE007C24D8 /* winGame.wav */,
+				FECD35951D5546BE007C24D8 /* winJoker.wav */,
 			);
 			path = "Joker's Ruin";
 			sourceTree = "<group>";
@@ -189,11 +219,20 @@
 				FE2210D41D3DFEE0009F73E6 /* LaunchScreen.storyboard in Resources */,
 				FEC056741D501FE1000C244E /* PD_tempo.mp3 in Resources */,
 				FE2210D11D3DFEE0009F73E6 /* Assets.xcassets in Resources */,
+				FECD35961D5546BE007C24D8 /* drawBattle.wav in Resources */,
+				FECD35981D5546BE007C24D8 /* highCard.wav in Resources */,
 				FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */,
+				FECD35991D5546BE007C24D8 /* loseBattle.wav in Resources */,
 				FE2210CF1D3DFEE0009F73E6 /* Main.storyboard in Resources */,
 				FEC056731D501FE1000C244E /* PD_Robotic City.mp3 in Resources */,
+				FECD35971D5546BE007C24D8 /* drawGame.wav in Resources */,
+				FECD359E1D5546BE007C24D8 /* winJoker.wav in Resources */,
+				FECD359B1D5546BE007C24D8 /* newCard.wav in Resources */,
 				FEC056711D501FE1000C244E /* PD_Dark Alleys.mp3 in Resources */,
+				FECD359A1D5546BE007C24D8 /* loseGame.wav in Resources */,
 				FEC056721D501FE1000C244E /* PD_Magic.mp3 in Resources */,
+				FECD359D1D5546BE007C24D8 /* winGame.wav in Resources */,
+				FECD359C1D5546BE007C24D8 /* winBattle.wav in Resources */,
 				FEC056701D501FE1000C244E /* PD_awesomeness.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +254,7 @@
 				FE6C8AC51D4DCEBB00257259 /* SaveHandler.swift in Sources */,
 				FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
+				FECD358C1D554690007C24D8 /* SFX.swift in Sources */,
 				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
 				FE8A4FE21D51C3A8008B695C /* CreditsScene.swift in Sources */,
 				FEC0566A1D501F03000C244E /* Music.swift in Sources */,
