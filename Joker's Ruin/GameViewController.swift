@@ -31,7 +31,7 @@ class GameViewController: UIViewController
 		changeState( .Menu )
     }
 	
-	func setMuted( muteState : Bool )
+	private func setMuted( muteState : Bool ) -> Bool
 	{
 		isMuted = muteState
 		//saveMachine.setMuteStatus( isMuted )
@@ -43,6 +43,18 @@ class GameViewController: UIViewController
 		{
 			musicPlayer.play()
 		}
+		
+		return isMuted
+	}
+	
+	func toggleMute() -> Bool
+	{
+		return setMuted( !isMuted )
+	}
+	
+	func muteSpriteFromStatus() -> String
+	{
+		return ( isMuted ? "musicOff" : "musicOn" )
 	}
 	
 	//changes the games state to the state provided and presents the associated scene

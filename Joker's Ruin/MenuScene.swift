@@ -15,9 +15,10 @@ class MenuScene : MyScene
 	{
 		createBackground()
 		makeButtons()
+		makeMuteButton()
 	}
 	
-	func makeButtons()
+	private func makeButtons()
 	{
 		var startY : CGFloat = 100
 		let padScale : CGFloat = 1.5
@@ -43,6 +44,16 @@ class MenuScene : MyScene
 		}
 	}
 	
+	private func makeMuteButton()
+	{
+		let muteButton = GameObj( spriteName: myController.muteSpriteFromStatus(), xStart: 32, yStart: UIScreen.mainScreen().bounds.height - 64 )
+		muteButton.withTouchObserver( MuteButtonHandler( scene: self ) )
+		muteButton.sprite.xScale = 2.0
+		muteButton.sprite.yScale = 2.0
+		muteButton.sprite.anchorPoint = CGPoint( x: 0.0, y: 0.5 )
+		addGameObject( muteButton )
+	}
+	
 	func handleButtonPress( sender: AnyObject )
 	{
 		if sender is UIButton
@@ -57,5 +68,22 @@ class MenuScene : MyScene
 				print( "Button could not be pressed" )
 			}
 		}
+	}
+}
+
+class MuteButtonHandler : TouchEventObserver
+{
+	let menuScene : MenuScene
+	
+	init( scene : MenuScene )
+	{
+		menuScene = scene
+	}
+	
+	func notifyTouched(location: CGPoint, obj: GameObj)
+	{
+		menuScene.myController.toggleMute()
+		let newSprite = menuScene.myController.muteSpriteFromStatus()
+		obj.setSprite( newSprite )
 	}
 }

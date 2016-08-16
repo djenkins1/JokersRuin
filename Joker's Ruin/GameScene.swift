@@ -13,9 +13,9 @@
 //	has weird positioning of cards(deckCards) on ipad
 //	should test positioning of credits/new game scene on smaller/bigger iphones other than 5s
 //
+//	mute status should be saved in preferences and loaded in on app start
+//	if there is a saved game to continue, should ask the user if they wish to still do a new game and overwrite the old one
 //	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
-//	add mute button to menu similar to Grove Hero/Gemicus
-//	add sound effect code for drawing high card/new card
 //	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
@@ -345,90 +345,6 @@ class GameScene : MyScene
 		super.touchesBegan( touches, withEvent: event )
     }
 	
-	/*
-	/* called when a touch moves */
-	override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?)
-	{
-		for touch in touches
-		{
-			if ( objectTouched == nil )
-			{
-				break
-			}
-			
-			if ( objectTouched.isDead )
-			{
-				objectTouched = nil
-				break
-			}
-			
-			let location = touch.locationInNode(self)
-			objectTouched.dragEvent( location )
-		}
-	}
-	*/
-	
-	/*
-	/* Called when a touch ends, i.e user lifts finger */
-	override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?)
-	{
-		for touch in touches
-		{
-			if ( objectTouched == nil )
-			{
-				break
-			}
-			
-			if ( objectTouched.isDead )
-			{
-				objectTouched = nil
-				break
-			}
-			
-			let location = touch.locationInNode(self)
-			objectTouched.stopDragEvent( location )
-			objectTouched = nil
-		}
-	}
-	*/
-	
-	/*
-	func pauseAndShowMessage( message : String, subMessage : String = "" ) -> [SKLabelNode]
-	{
-		var toReturn = [SKLabelNode]()
-		if ( pauseUpdate )
-		{
-			return toReturn
-		}
-		
-		pauseUpdate = true
-		var myLabel = addMakeLabel( message, xPos : CGRectGetMidX(self.frame), yPos : CGRectGetMidY(self.frame), fontSize: 45 )
-		toReturn.append( myLabel )
-		if ( subMessage != "" )
-		{
-			myLabel = addMakeLabel( subMessage, xPos : CGRectGetMidX(self.frame), yPos : CGRectGetMidY(self.frame) - myLabel.fontSize, fontSize: 30 )
-			toReturn.append( myLabel )
-		}
-		myLabel = addMakeLabel( "Tap to Continue", xPos : CGRectGetMidX(self.frame), yPos : myLabel.position.y - myLabel.fontSize, fontSize: 30 )
-		toReturn.append( myLabel )
-		
-		return toReturn
-	}
-	
-	*/
-	
-	/*
-	func addMakeSprite( spriteName : String, xPos : CGFloat, yPos : CGFloat ) -> SKSpriteNode
-	{
-		let sprite = SKSpriteNode( imageNamed: spriteName )
-		sprite.position = CGPoint( x: xPos, y: yPos )
-		sprite.anchorPoint = CGPoint( x: 0.0, y: 0.0 )
-		sprite.zPosition = 100
-		self.addChild( sprite )
-		return sprite
-	}
-	*/
-	
 	func clickCard( chosen : Int )
 	{
 		if ( playerChosenCard != nil || shouldWait )
@@ -468,6 +384,7 @@ class GameScene : MyScene
 			self.model.player.myHand.removeAt( chosen.placeInHand )
 			self.queueGameObject( self.playerChosenCard! )
 			self.repositionCards()
+			self.playSoundAfterDrawCard()
 		})
 	}
 	
@@ -617,6 +534,14 @@ class GameScene : MyScene
 			
 			opponentCards = newCards
 		}
+	}
+	
+	//called to play a sound effect when a card is drawn from the player's deck
+	//if the new card is higher than the rest of the hand then HighCard sound effect is played
+	private func playSoundAfterDrawCard()
+	{
+		let newCardIsBest = ( model.player.myHand.bestCardIndex == model.player.myHand.totalCards - 1 )
+		playSoundEffect( ( newCardIsBest ? SFX.HighCard : SFX.NewCard ) )
 	}
 	
 	/*
