@@ -12,9 +12,11 @@
 //----------
 //	has weird positioning of cards(deckCards) on ipad
 //	should test positioning of credits/new game scene on smaller/bigger iphones other than 5s
+//	also should test tutorial on bigger/smaller iphones
 //
 //	mute status should be saved in preferences and loaded in on app start
 //	if there is a saved game to continue, should ask the user if they wish to still do a new game and overwrite the old one
+//	should show the tutorial automatically if this is the first time using the app( use preferences to keep track)
 //	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
 //	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
@@ -22,13 +24,8 @@
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
 //	should also have some animation for winning/losing game
 //		fireworks going off for winning
-//	(???)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
+//	(SCRAP)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
-//	Menu with buttons for a new game, continue, help, credits
-//		have basis of menu, just need to actually implement the following:
-//			help screen will explain the rules, and maybe have a practice game tutorial
-//			(DONE)newGame will go to screen with options, i.e Computer/Human opponent, AI level if computer opponent and choose color if computer opponent
-//			(DONE)credits scene should be slide show of cards with corresponding info instead of just buttons
 //
 //
 //	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
@@ -212,6 +209,7 @@ class GameScene : MyScene
 					self.middleCard.sprite.position = oldPos
 					self.middleCard.sprite.runAction( SKAction.fadeAlphaTo( 1.0, duration: totalSecs ) )
 					self.updateScoreLabels( playerWon )
+					self.tutorialHandled?.handleBattleOver( self )
 			})
 		}
 	}
@@ -287,11 +285,7 @@ class GameScene : MyScene
 					SaveHandler.clearModel()
 					playGameOverSound( state )
 					doneScreen = true
-					if tutorialHandled != nil
-					{
-						tutorialHandled!.handleGameOver( self )
-					}
-					else
+					if tutorialHandled == nil
 					{
 						showGameOver( state )
 					}
@@ -299,8 +293,7 @@ class GameScene : MyScene
 			}
 			else
 			{
-				SaveHandler.writeModel( model )
-				tutorialHandled?.handleBattleOver( self )
+				SaveHandler.writeModel( model, isTutorial: tutorialHandled != nil )
 				playBattleSounds( battleResult, isJoker: isJoker )
 			}
 		}
@@ -356,11 +349,6 @@ class GameScene : MyScene
 	/* Called when a touch begins */
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
 	{
-		if tutorialHandled != nil
-		{
-			tutorialHandled!.handleTap( self )
-		}
-		
 		if doneScreen && tutorialHandled == nil
 		{
 			myController.changeState( .Menu )

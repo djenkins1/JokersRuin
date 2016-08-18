@@ -106,8 +106,14 @@ class SaveHandler
 		return toReturn
 	}
 	
-	static func writeModel( model : GameModel )
+	static func writeModel( model : GameModel, isTutorial : Bool = false )
 	{
+		if isTutorial
+		{
+			//if the tutorial is being played then no saves happen
+			return
+		}
+		
 		let objDict = model.getSerialFormat()
 		let saveStr = Process.convertToString( [objDict] )
 		SaveHandler.writeDocFile( SaveHandler.saveName , fileType: saveType, strToWrite: saveStr )

@@ -9,34 +9,6 @@
 import Foundation
 import SpriteKit
 
-//TODO:	NEED TO PUT JOKER AS SECOND CARD IN MIDDLE DECK
-//		also make paused when in box until not in box
-//		also need to actually show box/inBox text
-//		should the savehandler be used on the tutorial?
-//	Tutorial:
-//		(text shown as win text is shown)
-//		tap on a card(tapping on card in hand triggers next text to be shown)
-//		tap on the white outline
-//		(TEXT NOT SHOWN)the opponent does the same
-//	(AFTER BATTLE)(BIGBOX=BlankCard)
-//		the higher card of the two sides wins
-//		the point value of the middle card is added to the score
-//		if the middle card matches your color you get bonus points for winning it
-//		your score shows up in your color at the bottom of the screen
-//	(BACK TO GAME)
-//		choose a card(Joker in middle)
-//	(AFTER BATTLE)(BIGBOX=BlankCard)
-//		Winning the joker card will cut your points in half
-//		So you should play your lowest card when the joker is in the middle
-//	(BACK TO GAME)
-//		choose a card(keeps showing until game over)
-//	(AFTER BATTLE)(BIGBOX=BlankCard)
-//		the game ends when there are 4 cards remaining in your hand
-//		the point values of the 4 cards are added to your score
-//		you gain bonus points for cards with your color
-//		whoever has the most points at the end wins the game
-//	(BACK TO MENU)
-
 class TutorialHandler
 {
 	var currentIndex = 0
@@ -47,9 +19,15 @@ class TutorialHandler
 	
 	var textLabel : SKLabelNode?
 	
+	var myScene : GameScene!
+	
+	var cardBox : UIButton?
+	
 	//called when the scene is ready for the tutorial text to display
 	func firstScene( scene : GameScene )
 	{
+		myScene = scene
+		scene.model.middleDeck.putJokerAtIndex( 0 )
 		showText( scene )
 	}
 	
@@ -75,14 +53,13 @@ class TutorialHandler
 		}
 	}
 	
-	func handleTap( scene : GameScene )
+	@objc func handleTap()
 	{
 		//if the current stage is a box stage, advance to the next stage
 		//otherwise ignore the tap
 		if allStages[ currentIndex ].inBox
 		{
-			print( allStages[ currentIndex ].stageText )
-			nextStage( scene )
+			nextStage( myScene )
 		}
 	}
 	
@@ -119,12 +96,24 @@ class TutorialHandler
 		{
 			//if the stage has inBox = true then draw a box if it is not already drawn and remove any text if there was any
 			textLabel?.removeFromParent()
+			textLabel = nil
+			cardBox?.removeFromSuperview()
+			let screenSize = UIScreen.mainScreen().bounds
+			cardBox = ButtonFactory.createCustomButton( "blankCard", title: currentStage.stageText, width: 0.75 * screenSize.width, height: 0.75 * screenSize.height, xPos: 0.1 * screenSize.width, yPos: 0.1 * screenSize.height )
+			cardBox!.titleLabel?.lineBreakMode = .ByWordWrapping//NSLineBreakMode.ByWordWrapping;
+			cardBox!.addTarget( self, action: #selector( self.handleTap) , forControlEvents: .TouchUpInside)
+			cardBox!.contentEdgeInsets = UIEdgeInsetsMake( 10 , 10, 10, 10 )
+			scene.addButton( cardBox! )
+			scene.pauseUpdate = true
 		}
 		else
 		{
 			//otherwise if the inBox = false then remove the box if it was there AND remove any text
+			cardBox?.removeFromSuperview()
+			cardBox = nil
 			textLabel?.removeFromParent()
 			textLabel = scene.showBottomText( currentStage.stageText, fontSize: 40 )
+			scene.pauseUpdate = false
 		}
 	}
 }

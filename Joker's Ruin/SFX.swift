@@ -20,7 +20,7 @@ enum SFX : String
 	
 	case WinGame = "winGame.wav"
 	
-	case TieGame = "tieGame.wav"
+	case TieGame = "drawGame.wav"
 	
 	case LoseGame = "loseGame.wav"
 	

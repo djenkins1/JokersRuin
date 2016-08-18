@@ -231,6 +231,35 @@ class Deck
 			print( card.getSpriteString() )
 		}
 	}
+	
+	func removeJoker()
+	{
+		var index = -1
+		for card in myCards
+		{
+			index += 1
+			if card.isJoker
+			{
+				break
+			}
+		}
+		
+		if index < totalCards
+		{
+			myCards.removeAtIndex( index )
+		}
+	}
+	
+	func putJokerAtIndex( newIndex: Int )
+	{
+		if newIndex >= totalCards
+		{
+			return
+		}
+		
+		removeJoker()
+		myCards.insert( Card.getJoker(), atIndex: newIndex )
+	}
 }
 
 class Card

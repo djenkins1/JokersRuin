@@ -134,6 +134,19 @@ class ButtonFactory
 			button.setTitleColor( UIColor.whiteColor(), forState: .Normal )
 		}
 	}
+	
+	static func createCustomButton( backImage : String, title: String, width: CGFloat, height: CGFloat, xPos: CGFloat, yPos: CGFloat ) -> UIButton
+	{
+		let button = UIButton(type: UIButtonType.Custom) as UIButton
+		let backImage = UIImage( named: backImage ) as UIImage?
+		button.frame = CGRectMake( xPos, yPos, width, height )
+		button.setBackgroundImage( backImage, forState: .Normal )
+		button.setTitleColor( UIColor.blackColor(), forState: .Normal)
+		button.setTitle( title, forState: .Normal )
+		button.layer.zPosition = 100
+		setupDefaultFont( button )
+		return button
+	}
 }
 
 enum ButtonType : String
