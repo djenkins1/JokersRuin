@@ -17,6 +17,7 @@
 		FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */; };
 		FE2210E21D3E01CF009F73E6 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2210E11D3E01CF009F73E6 /* Cards.swift */; };
 		FE2210E61D3E09C6009F73E6 /* cards.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE2210E51D3E09C6009F73E6 /* cards.txt */; };
+		FE472C841D651EBD004304BA /* TutorialHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE472C831D651EBD004304BA /* TutorialHandler.swift */; };
 		FE6C8AC31D4DCE6900257259 /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C8AC21D4DCE6900257259 /* Process.swift */; };
 		FE6C8AC51D4DCEBB00257259 /* SaveHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */; };
 		FE6C8AC71D4DCEFA00257259 /* Credits.txt in Resources */ = {isa = PBXBuildFile; fileRef = FE6C8AC61D4DCEFA00257259 /* Credits.txt */; };
@@ -58,6 +59,7 @@
 		FE2210DF1D3DFFEE009F73E6 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FE2210E11D3E01CF009F73E6 /* Cards.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		FE2210E51D3E09C6009F73E6 /* cards.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cards.txt; sourceTree = "<group>"; };
+		FE472C831D651EBD004304BA /* TutorialHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialHandler.swift; sourceTree = "<group>"; };
 		FE6C8AC21D4DCE6900257259 /* Process.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
 		FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveHandler.swift; sourceTree = "<group>"; };
 		FE6C8AC61D4DCEFA00257259 /* Credits.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Credits.txt; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				FE00603D1D407071007127C4 /* PlayerAI.swift */,
 				FE91F7861D4D729000BE43D4 /* ButtonFactory.swift */,
 				FE6C8AC21D4DCE6900257259 /* Process.swift */,
+				FE472C831D651EBD004304BA /* TutorialHandler.swift */,
 				FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */,
 				FEC056691D501F03000C244E /* Music.swift */,
 				FECD358B1D554690007C24D8 /* SFX.swift */,
@@ -254,6 +257,7 @@
 				FE6C8AC51D4DCEBB00257259 /* SaveHandler.swift in Sources */,
 				FE91F7871D4D729000BE43D4 /* ButtonFactory.swift in Sources */,
 				FE2210E01D3DFFEE009F73E6 /* GameScene.swift in Sources */,
+				FE472C841D651EBD004304BA /* TutorialHandler.swift in Sources */,
 				FECD358C1D554690007C24D8 /* SFX.swift in Sources */,
 				FE79033C1D3EF4EA00DFFFEF /* GameModel.swift in Sources */,
 				FE8A4FE21D51C3A8008B695C /* CreditsScene.swift in Sources */,

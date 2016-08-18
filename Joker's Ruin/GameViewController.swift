@@ -105,7 +105,9 @@ class GameViewController: UIViewController
 		case .Play:
 			return GameScene( size: sizeBox )
 		case .Help:
-			return nil
+			let scene = GameScene( size: sizeBox )
+			scene.tutorialHandled = TutorialHandler()
+			return scene
 		case .Credits:
 			return CreditsScene( size: sizeBox )
 		case .NewGame:

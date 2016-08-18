@@ -80,6 +80,8 @@ class GameScene : MyScene
 	
 	var opponentScoreLabel : SKLabelNode!
 	
+	var tutorialHandled : TutorialHandler?
+	
 	override func didMoveToView(view: SKView)
 	{
 		/* Setup your scene here */
@@ -106,13 +108,17 @@ class GameScene : MyScene
 		addGameObject( addDeckCard( model.player.myHand.totalCards, yPos : middleCardY ) )
 		addPlayerCardsToView()
 		addOpponentCardsToView()
+		tutorialHandled?.firstScene( self )
 	}
 	
 	private func addPlayerCardsToView()
 	{
 		playerCards = addCardsToView( model.player.myHand, facingTop : true, yPos : playerCardPosY )
+		for card in playerCards
+		{
+			card.withTouchObserver( TutorialCardTouchObserver( scene: self ) )
+		}
 		playerDeckCard = addDeckCard( model.player.myHand.totalCards, yPos: playerCardPosY  )
-		//func addMakeLabel( message : String, xPos : CGFloat, yPos : CGFloat, fontSize : CGFloat, convertPoint : Bool = true ) -> SKLabelNode
 		let fontSize : CGFloat = 40
 		deckLabel = addMakeLabel( "\(model.player.myDeck.totalCards)" , xPos : playerDeckCard.sprite.position.x , yPos : playerCardPosY + ( fontSize * 3 ), fontSize: fontSize )
 		makeScoreLabel( true )
@@ -192,7 +198,7 @@ class GameScene : MyScene
 		}
 		else
 		{
-			let newPosX = -padding//UIScreen.mainScreen().bounds.width + padding
+			let newPosX = -padding
 			action = SKAction.moveToX( newPosX , duration: totalSecs )
 		}
 		
@@ -264,7 +270,6 @@ class GameScene : MyScene
 			let isJoker = model.middleCard.isJoker
 			let battleResult = model.battle( playerChosenCard!.myCard , opponentCard:  opponentChosenCard!.myCard )
 			animateBattle( battleResult )
-			playBattleSounds( battleResult, isJoker: isJoker )
 			playerChosenCard!.makeDead()
 			opponentChosenCard!.makeDead()
 			playerChosenCard = nil
@@ -280,25 +285,45 @@ class GameScene : MyScene
 				if let state = model.gameWinState()
 				{
 					SaveHandler.clearModel()
-					let fontSize : CGFloat = 50
-					let otherSize : CGFloat = 40
 					playGameOverSound( state )
-					addMakeLabel( "You \(state.rawValue)", xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 3 ),fontSize: fontSize, convertPoint: false )
-					let tapLabel = addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 4 ),fontSize: otherSize, convertPoint: false )
-					
-					let fadeOut = SKAction.fadeOutWithDuration(1.0)
-					let fadeIn = SKAction.fadeInWithDuration( 1.0 )
-					let sequence = SKAction.sequence([fadeOut, fadeIn])
-					let repeatForever = SKAction.repeatActionForever( sequence )
-					tapLabel.runAction( repeatForever )
 					doneScreen = true
+					if tutorialHandled != nil
+					{
+						tutorialHandled!.handleGameOver( self )
+					}
+					else
+					{
+						showGameOver( state )
+					}
 				}
 			}
 			else
 			{
 				SaveHandler.writeModel( model )
+				tutorialHandled?.handleBattleOver( self )
+				playBattleSounds( battleResult, isJoker: isJoker )
 			}
 		}
+	}
+	
+	private func showGameOver( state: WinState )
+	{
+
+		let fontSize : CGFloat = 50
+		let otherSize : CGFloat = 40
+		showBottomText( "You \(state.rawValue)", fontSize: fontSize )
+		let tapLabel = addMakeLabel( "Tap to Continue" , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 4 ),fontSize: otherSize, convertPoint: false )
+		
+		let fadeOut = SKAction.fadeOutWithDuration(1.0)
+		let fadeIn = SKAction.fadeInWithDuration( 1.0 )
+		let sequence = SKAction.sequence([fadeOut, fadeIn])
+		let repeatForever = SKAction.repeatActionForever( sequence )
+		tapLabel.runAction( repeatForever )
+	}
+	
+	func showBottomText( text : String, fontSize: CGFloat ) -> SKLabelNode
+	{
+		return addMakeLabel(text , xPos: CGRectGetMidX(self.frame), yPos: CGRectGetMidY(self.frame) - ( fontSize * 3 ),fontSize: fontSize, convertPoint: false )
 	}
 	
 	private func playGameOverSound( state : WinState )
@@ -330,8 +355,13 @@ class GameScene : MyScene
 	
 	/* Called when a touch begins */
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
-	{		
-		if doneScreen
+	{
+		if tutorialHandled != nil
+		{
+			tutorialHandled!.handleTap( self )
+		}
+		
+		if doneScreen && tutorialHandled == nil
 		{
 			myController.changeState( .Menu )
 			return
@@ -466,6 +496,7 @@ class GameScene : MyScene
 				let newCard = CardObj( card: model.player.myHand.lastCard! , xStart: getCardPosition( newIndex ), yStart: playerCardPosY, showFace: true )
 				newCard.placeInHand = newIndex
 				newCard.sprite.zPosition += CGFloat( newIndex )
+				newCard.withTouchObserver( TutorialCardTouchObserver( scene: self ) )
 				newCards.append( newCard )
 				newCard.sprite.alpha = 0
 				let action = SKAction.fadeInWithDuration( 0.8 )
@@ -543,24 +574,6 @@ class GameScene : MyScene
 		let newCardIsBest = ( model.player.myHand.bestCardIndex == model.player.myHand.totalCards - 1 )
 		playSoundEffect( ( newCardIsBest ? SFX.HighCard : SFX.NewCard ) )
 	}
-	
-	/*
-	//returns the hypotenuse distance between the two points provided
-	static func distanceBetween( x : CGFloat, y: CGFloat, otherX : CGFloat, otherY: CGFloat ) -> Float
-	{
-		return hypotf(Float( x - otherX), Float( y - otherY ) )
-	}
-	
-	
-	static func gcd( a : Int, _ b : Int ) -> Int
-	{
-		if b == 0
-		{
-			return a
-		}
-		return gcd( b, a % b )
-	}
-	*/
 }
 
 class PlaceHolderTouchObserver : TouchEventObserver
@@ -578,3 +591,17 @@ class PlaceHolderTouchObserver : TouchEventObserver
 	}
 }
 
+class TutorialCardTouchObserver : TouchEventObserver
+{
+	let myScene : GameScene
+	
+	init( scene : GameScene )
+	{
+		myScene = scene
+	}
+	
+	func notifyTouched(location: CGPoint, obj: GameObj)
+	{
+		myScene.tutorialHandled?.handleCardPress( myScene )
+	}
+}
