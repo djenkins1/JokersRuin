@@ -17,13 +17,14 @@
 //	mute status should be saved in preferences and loaded in on app start
 //	if there is a saved game to continue, should ask the user if they wish to still do a new game and overwrite the old one
 //	should show the tutorial automatically if this is the first time using the app( use preferences to keep track)
-//	should spice up the menu, maybe add animated cards or something. maybe a joker/joker card somewhere
+//	should also have some animation for winning/losing game
+//		fireworks going off for winning
+//		cards spinning and falling from top of the screen for losing/draw
+//
 //	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
-//	should also have some animation for winning/losing game
-//		fireworks going off for winning
 //	(SCRAP)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
 //

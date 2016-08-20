@@ -11,11 +11,55 @@ import SpriteKit
 
 class MenuScene : MyScene
 {
+	var menuHand = [CardObj]()
+	
+	var menuDeck : Deck!
+	
+	var currentIndex = 0
+	
 	override func didMoveToView(view: SKView)
 	{
 		createBackground()
 		makeButtons()
 		makeMuteButton()
+		addCards()
+		
+		NSTimer.scheduledTimerWithTimeInterval(2.0 , target: self, selector: #selector(self.timerHandEvent), userInfo: nil, repeats: false)
+	}
+	
+	func timerHandEvent()
+	{
+		let card = menuHand[ currentIndex ]
+		//if there are no more cards in the deck, replace the card with a joker and get a new deck
+		if let newCard = menuDeck.getTopCard()
+		{
+			animateCardChange( card, newCard: newCard )
+		}
+		else
+		{
+			animateCardChange( card, newCard: Card.getJoker() )
+			menuDeck = Deck()
+		}
+		
+		currentIndex += 1
+		if currentIndex >= menuHand.count
+		{
+			currentIndex = 0
+		}
+	}
+	
+	private func animateCardChange( card: CardObj, newCard: Card )
+	{
+		let fadeOut = SKAction.fadeOutWithDuration( 0.75 )
+		let fadeIn = SKAction.fadeInWithDuration( 0.75 )
+		card.sprite.runAction( fadeOut, completion:
+			{
+				card.changeToCard( newCard )
+				card.sprite.runAction( fadeIn, completion:
+					{
+						NSTimer.scheduledTimerWithTimeInterval( 2.0 , target: self, selector: #selector(self.timerHandEvent), userInfo: nil, repeats: false)
+				})
+		})
 	}
 	
 	private func makeButtons()
@@ -52,6 +96,31 @@ class MenuScene : MyScene
 		muteButton.sprite.yScale = 2.0
 		muteButton.sprite.anchorPoint = CGPoint( x: 0.0, y: 0.5 )
 		addGameObject( muteButton )
+	}
+	
+	private func addCards()
+	{
+		menuDeck = Deck()
+		menuDeck.shuffle( 5 )
+		let hand = Deck(withCards: [ menuDeck.getTopCard()!, menuDeck.getTopCard()!, menuDeck.getTopCard()!, menuDeck.getTopCard()!, Card.getJoker() ] )
+		menuHand = layoutCards( hand )
+	}
+	
+	private func layoutCards( hand: Deck ) -> [CardObj]
+	{
+		var allCards = [CardObj]()
+		let totalCards = hand.totalCards
+		for index in 0..<totalCards
+		{
+			let card = hand.getTopCard()!
+			let xPadding = CGFloat( 0.07 * CGFloat( index ) )
+			let newCard = addGameObject( CardObj( card: card, xStart: (0.25 + xPadding) * view!.bounds.width, yStart: 0.15 * view!.bounds.height, showFace: true ) )
+			newCard.sprite.runAction(SKAction.rotateByAngle(CGFloat( M_PI ) / CGFloat( 8 + index ), duration: 0.0))
+			newCard.sprite.zPosition += CGFloat( index )
+			allCards.append( (newCard as! CardObj) )
+		}
+		
+		return allCards
 	}
 	
 	func handleButtonPress( sender: AnyObject )
