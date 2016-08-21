@@ -44,6 +44,7 @@
 		FECD359C1D5546BE007C24D8 /* winBattle.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35931D5546BE007C24D8 /* winBattle.wav */; };
 		FECD359D1D5546BE007C24D8 /* winGame.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35941D5546BE007C24D8 /* winGame.wav */; };
 		FECD359E1D5546BE007C24D8 /* winJoker.wav in Resources */ = {isa = PBXBuildFile; fileRef = FECD35951D5546BE007C24D8 /* winJoker.wav */; };
+		FED951081D6A3E5F00DE675C /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED951071D6A3E5F00DE675C /* SettingsHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 		FECD35931D5546BE007C24D8 /* winBattle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winBattle.wav; sourceTree = "<group>"; };
 		FECD35941D5546BE007C24D8 /* winGame.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winGame.wav; sourceTree = "<group>"; };
 		FECD35951D5546BE007C24D8 /* winJoker.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winJoker.wav; sourceTree = "<group>"; };
+		FED951071D6A3E5F00DE675C /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				FE6C8AC21D4DCE6900257259 /* Process.swift */,
 				FE472C831D651EBD004304BA /* TutorialHandler.swift */,
 				FE6C8AC41D4DCEBB00257259 /* SaveHandler.swift */,
+				FED951071D6A3E5F00DE675C /* SettingsHandler.swift */,
 				FEC056691D501F03000C244E /* Music.swift */,
 				FECD358B1D554690007C24D8 /* SFX.swift */,
 				FE2210CD1D3DFEE0009F73E6 /* Main.storyboard */,
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FED951081D6A3E5F00DE675C /* SettingsHandler.swift in Sources */,
 				FE00603E1D407071007127C4 /* PlayerAI.swift in Sources */,
 				FE91F7891D4D785300BE43D4 /* MyScene.swift in Sources */,
 				FE79033A1D3EF0C000DFFFEF /* CardObj.swift in Sources */,

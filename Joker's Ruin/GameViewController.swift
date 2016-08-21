@@ -21,6 +21,7 @@ class GameViewController: UIViewController
     override func viewDidLoad()
 	{
         super.viewDidLoad()
+		isMuted = SettingsHandler.getHandler().getMuteStatus()
 		
 		setupMusic()
 		if ( !isMuted )
@@ -34,7 +35,8 @@ class GameViewController: UIViewController
 	private func setMuted( muteState : Bool ) -> Bool
 	{
 		isMuted = muteState
-		//saveMachine.setMuteStatus( isMuted )
+		SettingsHandler.getHandler().updateMuteStatus( isMuted )
+		
 		if ( isMuted )
 		{
 			musicPlayer.pause()

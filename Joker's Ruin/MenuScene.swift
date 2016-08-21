@@ -69,7 +69,10 @@ class MenuScene : MyScene
 		var lastAddedButton = addButton( ButtonFactory.createCenteredButton( "Joker's Ruin", buttonType: .TitleButton , yPos: startY ) )
 		startY += lastAddedButton.frame.height * padScale
 		
-		let buttonKeys = [ ( "New Game" , GameState.NewGame.rawValue ),
+		//if the player has finished the tutorial, new game will take them actually do a new game, otherwise the tutorial is shown if it has not been completed
+		let newGameValue = ( SettingsHandler.getHandler().getHelpStatus() ? GameState.NewGame.rawValue : GameState.Help.rawValue )
+		
+		let buttonKeys = [ ( "New Game" , newGameValue ),
 		                   ( "Continue" , GameState.Continue.rawValue ),
 		                   ( "Help" , GameState.Help.rawValue ),
 		                   ( "Credits" , GameState.Credits.rawValue ) ]

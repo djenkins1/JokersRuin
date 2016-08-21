@@ -68,6 +68,7 @@ class TutorialHandler
 	{
 		if currentIndex + 1 >= allStages.count
 		{
+			SettingsHandler.getHandler().updateHelpStatus( true )
 			scene.myController.changeState( .Menu )
 			return
 		}

@@ -148,23 +148,6 @@ class GameModel
 		}
 		
 		middleCard = middleDeck.getTopCard()!
-		
-		//TESTING:
-		/*
-		print( "Testing Cards" )
-		let handSerialized = "SA J H7 D3 CJ"
-		print( "Before: \(handSerialized)" )
-		if let testDeck = Deck( fromSerial: handSerialized )
-		{
-			testDeck.printDeck()
-			print( "Serialized Deck: \(testDeck.getSerialString())" )
-		}
-		else
-		{
-			print( "Problem with deck" )
-		}
-		print( "" )
-		*/
 	}
 	
 	func getSerialFormat() -> Dictionary<String, String>

@@ -14,12 +14,12 @@
 //	should test positioning of credits/new game scene on smaller/bigger iphones other than 5s
 //	also should test tutorial on bigger/smaller iphones
 //
-//	mute status should be saved in preferences and loaded in on app start
 //	if there is a saved game to continue, should ask the user if they wish to still do a new game and overwrite the old one
-//	should show the tutorial automatically if this is the first time using the app( use preferences to keep track)
 //	should also have some animation for winning/losing game
 //		fireworks going off for winning
 //		cards spinning and falling from top of the screen for losing/draw
+//	beef up the hard ai to take color of card into account
+//	decide: brand new game is not saved until after the first battle, should this be different?
 //
 //	finish up NewGameScene by adding a toggle button for computer/human
 //	special animation for who wins the joker
