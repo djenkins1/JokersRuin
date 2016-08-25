@@ -1,13 +1,13 @@
 warlike card game
 --------------
 (DONE)1 card in middle
-each player has 5 cards in hand and a draw pile for each player
+(DONE)each player has 5 cards in hand and a draw pile for each player
 (DONE)higher card wins the one in the middle(adds to total score)
 	(DONE)if draw, the cards value is added to both players scores
 (DONE)bonus points if card in middle is same color as yours and you win it(no draw)
 	(DONE)no bonus points for draws though
 
-game ends once draw pile is exhausted and 1 card has been played from hand
+(DONE)game ends once draw pile is exhausted and 1 card has been played from hand
 (DONE)bonus points for cards of your color(red/black) left in hand
 (DONE)player with highest score at end wins
 
@@ -34,7 +34,7 @@ special
 	(DONE)card picked fades out and shows up in middle
 	(DONE)new card drawn fades into right most spot and other cards are shuffled down
 
-AI system(with difficulty level)
+(DONE)AI system(with difficulty level)
 
 Multiplayer support using Game Center
 
@@ -61,13 +61,13 @@ card rank/suit enums
 ------
 Needed
 ------
-Music
+App Icon
 
-Sound Effects
+(DONE)Music
+
+(DONE)Sound Effects
 	http://opengameart.org/content/atmospheric-interaction-sound-pack
 	used for loseGame and drawGame, winJoker, loseBattle,drawBattle, winBattle
-
-App Icon
 
 (DONE)Background
 	Take green card background, remove white strip and scale for various aspects

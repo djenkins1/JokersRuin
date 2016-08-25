@@ -14,29 +14,40 @@
 //	should test positioning of credits/new game scene on smaller/bigger iphones other than 5s
 //	also should test tutorial on bigger/smaller iphones
 //
+//	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
+//	(SPRITE)App Icon
 //	if there is a saved game to continue, should ask the user if they wish to still do a new game and overwrite the old one
 //	should also have some animation for winning/losing game
 //		fireworks going off for winning
 //		cards spinning and falling from top of the screen for losing/draw
 //	beef up the hard ai to take color of card into account
-//	decide: brand new game is not saved until after the first battle, should this be different?
 //
-//	finish up NewGameScene by adding a toggle button for computer/human
-//	special animation for who wins the joker
+//	(SCRAP)decide: brand new game is not saved until after the first battle, should this be different?
+//		decision: No point saving until the first battle has finished
+//	(SCRAP)special animation for who wins the joker
 //		maybe animate the joker card spinning, would have to remove animation when put back in middle as new card
 //		i.e if the player wins then some kind of joker sprite laughing should show up on screen
 //	(SCRAP)maybe for more strategy allow player/opponentAI to use card on top of deck as choice(player cannot see what it is)
 //		deck card would have indexInHand equal to totalCards in hand
 //
-//
-//	(SPRITE)should recolor the joker to be green so as to not be ambiguos for bonus points
-//	(SPRITE)App Icon
-//
+------
+(Version2)
+------
+//	Coins won from games:
+//		maybe have score be coins, the total score at end is added to coin purse
+//		for every (100/1000) coins, get a gem
+//		can use gems to buy specialty things like:
+//		customizable card backgrounds
+//		unlock more music
+//	finish up NewGameScene by adding a toggle button for computer/human
 //	Multiplayer game support using Game Center
 //		will probably have to refactor some of the GameScene code to make it easier for multiplayer
+//			biggest difference in multiplayer: asynchronous choice of card for opponent
+//			both players poll the model in order to update the view
 //		will also need to disable saving/deletion of model when playing multiplayer game
 //			maybe move save code into model function and then call said function with if statement inside to determine if multiplayer
-//	see cards.txt for other things todo
+//		will have to do something if one player disconnects, maybe use victory popup text to tell the player
+//
 */
 import SpriteKit
 import AVFoundation
